@@ -1,0 +1,4 @@
+venv/
+.idea/
+/back-end/.idea
+*.pyc

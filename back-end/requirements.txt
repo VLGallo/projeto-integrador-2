@@ -1,0 +1,14 @@
+Django==5.0.3
+djangorestframework==3.15.1
+django-extensions==3.2.3
+django-cors-headers==4.3.1
+djangorestframework-jwt
+djangorestframework-simplejwt
+sqlparse==0.5.0
+tzdata==2024.1
+wheel==0.41.2
+PyJWT==1.7.1
+typing_extensions==4.11.0
+setuptools==68.2.0
+asgiref==3.8.1
+
