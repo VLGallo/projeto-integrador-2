@@ -1,5 +1,5 @@
 function buscarPedidos(motoboyId) {
-  fetch(`https://zerissi.azurewebsites.net/pedido/motoboy/${motoboyId}`)
+  fetch(`http://localhost:8000/pedido/motoboy/${motoboyId}`)
     .then((response) => response.json())
     .then((data) => {
       exibirMotoboy(data.motoboy);
@@ -116,7 +116,7 @@ function criarCheckboxComLabel(id, labelText, listaPedidos, parentElement) {
 }
 
 function confirmarOuCancelarEntrega(idPedido, acao, listaPedidos) {
-  const endpoint = ` https://zerissi.azurewebsites.net/pedido/${idPedido}/action/${acao}`;
+  const endpoint = ` http://localhost:8000/pedido/${idPedido}/action/${acao}`;
   console.log(`Chamando endpoint: ${endpoint}`);
 
   const requestOptions = {

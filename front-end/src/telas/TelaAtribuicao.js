@@ -42,7 +42,7 @@ const TelaHome = () => {
   useEffect(() => {
     const carregarMotoboy = async () => {
       try {
-        const response = await axios.get("https://zerissi.azurewebsites.net/motoboy");
+        const response = await axios.get("http://localhost:8000/motoboy");
 
         setMotoboys(response.data);
         setCarregandoMotoboys(false);
@@ -53,7 +53,7 @@ const TelaHome = () => {
 
     const carregarPedidos = async () => {
       try {
-        const response = await axios.get("https://zerissi.azurewebsites.net/pedido");
+        const response = await axios.get("http://localhost:8000/pedido");
         console.log(response.data);
         setPedidos(response.data);
         setCarregandoPedidos(false);
@@ -70,7 +70,7 @@ const TelaHome = () => {
     for (let i = 0; i < selectedPedidos.length; i++) {
       try {
         const response = await axios.put(
-          "https://zerissi.azurewebsites.net/pedido/" +
+          "http://localhost:8000/pedido/" +
             selectedPedidos[i] +
             "/atribuir-motoboy/" +
             selectedMotoboy

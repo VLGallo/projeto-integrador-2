@@ -19,7 +19,7 @@ const TelaCadastro = () => {
 
   const handleSalvar = async () => {
     try {
-      const response = await axios.post("https://zerissi.azurewebsites.net/motoboy/add", {
+      const response = await axios.post("http://localhost:8000/motoboy/add", {
         nome: nome,
         telefone: telefone,
         placa: placa,

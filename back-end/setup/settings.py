@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-(j%5p3+$b)z_5&4048^nnbo25%o*%%(ey(z^gsw$@y-1$074o("
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Application definition
 
@@ -50,10 +50,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "zerissi.azurewebsites.net"
+    "http://localhost"
 ]
 
-ALLOWED_HOSTS = ["zerissi.azurewebsites.net"]
+ALLOWED_HOSTS = ["localhost", '127.0.0.1']
 
 
 
