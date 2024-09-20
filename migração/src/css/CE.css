@@ -1,0 +1,31 @@
+.corpo {
+    
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-image: url('../assets/img/bg-opaco.png'); 
+    background-size: cover;
+    background-position: center;
+    
+  
+  }
+
+  .titulo {
+    font-family: "Luckiest Guy", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+  }
+
+  
+  
+  .Form {
+    margin-bottom: 50px;
+    width: 50px;
+    color: black;
+  }
+
+  form {
+    width: 90%;
+    padding-left: 80px;
+  }

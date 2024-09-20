@@ -1,0 +1,35 @@
+
+.Backgorund {
+  background-image: url('../assets/img/backpc.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  height: 90vh; 
+  width: 100vw; 
+}
+
+.Titulo1 {
+  color: black;
+  text-align: center;
+  font-size: 70px;  
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+ 
+  }
+
+
+@media (max-width: 720px) {
+  .Backgorund {
+    background-image: url('../assets/img/imagem-home.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    height: 90vh; 
+    width: 100vw; 
+  }
+  .Titulo1 {
+    font-size: 70px;  
+    }
+
+}
