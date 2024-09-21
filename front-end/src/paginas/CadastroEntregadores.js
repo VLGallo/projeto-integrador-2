@@ -16,7 +16,7 @@ const CadastroEntregadores = () => {
           nome,
           telefone,
           placa,
-          funcionario: 2, // Exemplo de ID do funcionário
+          funcionario: 1, // Exemplo de ID do funcionário
         });
 
         if (response.status === 201) {

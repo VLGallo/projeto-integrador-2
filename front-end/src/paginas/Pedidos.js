@@ -43,7 +43,7 @@ const Pedidos = () => {
   // Adicionar item
   const adicionarItem = () => {
     if (selectedProduct) {
-      setItens((prevItens) => [...prevItens, selectedProduct]);
+      setItens((prevItens) => [...prevItens, parseInt(selectedProduct)]);
       setSelectedProduct('');
     }
   };
@@ -60,9 +60,9 @@ const Pedidos = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8000/pedido/add', {
-        cliente: clienteSelecionado,
+        cliente: parseInt(clienteSelecionado),
         produtos: itens,
-        funcionario: 2, 
+        funcionario: 1, 
       });
       if (response.status >= 200 && response.status < 300) {
         setModalVisible(true); 

@@ -11,6 +11,8 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from datetime import datetime, date
+from django.db.models import DateField
+from django.db.models.functions import Cast
 
 class PedidoView(APIView):
     def post(self, request):
@@ -181,14 +183,15 @@ class PedidosAtribuidosMotoboyView(APIView):
         except Motoboy.DoesNotExist:
             return Response({'message': 'Motoboy não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
-        pedidos = Pedido.objects.filter(
+        pedidos = Pedido.objects.annotate(
+            data_inicio_date=Cast('data_hora_inicio', DateField())
+        ).filter(
             motoboy=motoboy,
-            data_hora_inicio__date=data_atual
-        ) # Calcula o total dos pedidos
+            data_inicio_date=data_atual
+        )
 
         serializer = PedidoSerializerResponse(pedidos, many=True)
         pedidosSerializados = serializer.data
-
 
         motoboy_serializer = MotoboySerializerResponse(motoboy)  # Serializa o motoboy completo
 
