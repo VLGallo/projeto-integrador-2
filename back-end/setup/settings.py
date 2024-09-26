@@ -29,7 +29,14 @@ INSTALLED_APPS = [
     "gerenciador_de_funcionarios.apps.GerenciadorDeFuncionariosConfig",
     "gerenciador_de_clientes.apps.GerenciadorDeClientesConfig",
     "gerenciador_de_produtos.apps.GerenciadorDeProdutosConfig",
-    "gerenciador_de_pedidos.apps.GerenciadorDePedidosConfig"
+    "gerenciador_de_pedidos.apps.GerenciadorDePedidosConfig",
+    "autenticacao"
+]
+
+# Authentication backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Para permitir login via username (se necessário)
+    'autenticacao.backends.EmailBackend',         # Nosso EmailBackend customizado
 ]
 
 CORS_ALLOW_METHODS = [
@@ -102,12 +109,12 @@ WSGI_APPLICATION = "setup.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "pizzaria_db",       
-        "USER": "pizzaria_user",     
-        "PASSWORD": "Senha1234!",   
+        "NAME": "pizzaria_db",
+        "USER": "pizzaria_user",
+        "PASSWORD": "Senha1234!",
         # Substituir se estiver usando um servidor remoto
-        "HOST": "localhost",                    
-        "PORT": "3306",                         
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
 

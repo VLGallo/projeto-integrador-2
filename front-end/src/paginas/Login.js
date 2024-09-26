@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 import '../css/Login.css';
 import logoImage from '../assets/img/favicon.png';  
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // Verificação de email e senha
-    const validEmail = 'ste@br.com';
-    const validPassword = 'senha123';
 
-    if (email === validEmail && password === validPassword) {
-      // Redirecionar para a página "Home" em caso de sucesso
-      navigate('/Home');  // Adiciona a barra antes do caminho
-    } else {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/auth/login/', { // Certifique-se de que a URL está correta
+        username_or_email: usernameOrEmail, // Agora usamos usernameOrEmail
+        password: password,
+      });
+
+      // Verifica se o login foi bem-sucedido
+      if (response.status === 200) {
+        // Redirecionar para a página "Home" em caso de sucesso
+        navigate('/Home');
+      }
+    } catch (error) {
       // Exibir mensagem de erro em caso de falha
       setErrorMessage('Email ou senha incorretos');
     }
@@ -40,22 +45,22 @@ function Login() {
         <form className="login-form" onSubmit={handleLogin}>
           <h2>Login</h2>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username_or_email">Usuário</label>
             <input 
-              type="email" 
-              id="email" 
-              placeholder="Enter your email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"  // Mudado de type="email" para type="text"
+              id="username_or_email" 
+              placeholder="Digite seu nome de usuário" 
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
               required 
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Senha</label>
             <input 
               type="password" 
               id="password" 
-              placeholder="Enter your password" 
+              placeholder="Digite sua senha" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required 
@@ -70,4 +75,3 @@ function Login() {
 }
 
 export default Login;
-
