@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import '../css/Login.css';
 import logoImage from '../assets/img/favicon.png';  
 
 function Login() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -14,27 +14,25 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/auth/login/', { // Certifique-se de que a URL está correta
-        username_or_email: usernameOrEmail, // Agora usamos usernameOrEmail
-        password: password,
+      const response = await axios.post('http://127.0.0.1:8000/login', { 
+        usuario: username, 
+        senha: password,
       });
 
       // Verifica se o login foi bem-sucedido
       if (response.status === 200) {
-        // Redirecionar para a página "Home" em caso de sucesso
         navigate('/Home');
       }
     } catch (error) {
-      // Exibir mensagem de erro em caso de falha
-      setErrorMessage('Email ou senha incorretos');
+       setErrorMessage('Usuário ou senha incorretos');
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-left">
-        <h2 className='ge'>Gestão de Entregas!</h2>
-        <p>Casa zé Rissi.</p>
+        <h2 className='ge'>Gestão de Entregas</h2>
+        <p>Casa zé Rissi</p>
 
         <div className='logo-image'> 
           <img src={logoImage} alt="Logo" className="logo-image" />
@@ -45,13 +43,13 @@ function Login() {
         <form className="login-form" onSubmit={handleLogin}>
           <h2>Login</h2>
           <div className="form-group">
-            <label htmlFor="username_or_email">Usuário</label>
+            <label htmlFor="username">Usuário</label>
             <input 
-              type="text"  // Mudado de type="email" para type="text"
-              id="username_or_email" 
+              type="text"  
+              id="username" 
               placeholder="Digite seu nome de usuário" 
-              value={usernameOrEmail}
-              onChange={(e) => setUsernameOrEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required 
             />
           </div>

@@ -9,13 +9,15 @@
     "axios": "^1.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.14.0",  
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
-    "react-icons": "^4.10.1", 
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run front\" \"npm run back\"",
+    "front": "react-scripts start",
+    "back": "cd ../back-end && venv\\Scripts\\activate && python manage.py runserver",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,6 +41,8 @@
     ]
   },
   "devDependencies": {
-    "ajv": "^7.2.4"
+    "ajv": "^7.2.4",
+    "concurrently": "^9.0.1",
+    "cypress": "^13.15.0"
   }
 }
