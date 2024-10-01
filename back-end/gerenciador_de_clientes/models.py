@@ -7,7 +7,7 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=15)
     cep = models.CharField(max_length=8)
     logradouro = models.CharField(max_length=200)
-    numero = models.CharField(max_length=10, null=True, blank=True)
+    numero = models.CharField(max_length=10)
     complemento = models.CharField(max_length=30, null=True, blank=True)
     bairro = models.CharField(max_length=200)
 
