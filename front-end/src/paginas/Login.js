@@ -14,7 +14,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/login', { 
+      const response = await axios.post('http://127.0.0.1:8000/Login', { 
         usuario: username, 
         senha: password,
       });
@@ -31,7 +31,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-left">
-        <h2 className='ge'>Gestão de Entregas</h2>
+        <h2 className='g'>Gestão de Entregas</h2>
         <p>Casa zé Rissi</p>
 
         <div className='logo-image'> 

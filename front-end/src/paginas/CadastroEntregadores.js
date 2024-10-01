@@ -42,7 +42,7 @@ const CadastroEntregadores = () => {
 
   return (
     <div className="corpo">
-      <h2 className="titulo">Cadastro de Entregadores</h2>
+      <h2 className="ge">Cadastro de Entregadores</h2>
 
       <form onSubmit={handleCadastro}>
         <div className="form-group">

@@ -70,7 +70,7 @@ function Atribuicao() {
   return (
     <div className="atribuicao-container" style={{ backgroundImage: `url(${fundo})` }}>
       <div className="atribuicao-form">
-        <h1>Atribuição de Pedidos</h1>
+        <h1 className="ge">Atribuição de Pedidos</h1>
 
         <form>
           {/* Campo de Motoboy */}

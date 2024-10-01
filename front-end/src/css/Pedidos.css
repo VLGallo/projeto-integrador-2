@@ -1,8 +1,8 @@
-/* Pedidos.css */
+
 
 .pedidos-container {
     display: flex;
-    height: 90vh;
+    height: 100vh;
     background-image: url('../assets/img/bg-opaco.png'); 
     background-size: cover;
     background-position: center;
@@ -14,7 +14,7 @@
     padding: 20px;
     border-radius: 10px;
     margin: 20px;
-    width: 50%;
+    width: 40%;
     
   }
   
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    width: 70%;
+    width: 50%;
   }
   
   .pizza-icon {
@@ -42,7 +42,7 @@
   
   .form-group {
     margin-bottom: 15px;
-    width: 90%;
+    width: 70%;
   }
   
   .form-group label {
@@ -74,7 +74,7 @@
     color: white;
     border: none;
     padding: 10px;
-    margin-left: 5px;
+    margin-left: 15px;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -113,7 +113,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-left: 20px;
+    margin-left: -150px;
   }
   
   .cancel-button:hover {

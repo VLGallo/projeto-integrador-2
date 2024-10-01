@@ -81,7 +81,7 @@ const Pedidos = () => {
       <div className="pedidos-form">
         <div className="form-header">
           <img src={pizzaIcon} alt="Pizza" className="pizza-icon" />
-          <h1>Pedidos</h1>
+          <h1 className='ge'>Pedidos</h1>
         </div>
         <form onSubmit={handleSalvar}>
           <div className="form-group">
