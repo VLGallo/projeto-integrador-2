@@ -9,6 +9,13 @@ class Motoboy(models.Model):
     placa = models.CharField(max_length=20)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['nome', 'telefone', 'placa'],
+                name='unique_motoboy'
+            )
+        ]
 
     def __str__(self):
         return self.nome

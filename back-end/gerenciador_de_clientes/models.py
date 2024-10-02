@@ -11,5 +11,14 @@ class Cliente(models.Model):
     complemento = models.CharField(max_length=30, null=True, blank=True)
     bairro = models.CharField(max_length=200)
 
+# garante que se todos os campos forem iguais simultaneamente, não permite o cadastro duas vezes do mesmo cliente com id diferente
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['nome', 'telefone', 'cep', 'logradouro', 'numero', 'complemento', 'bairro'],
+                name='unique_cliente'
+            )
+        ]
+
     def __str__(self):
         return self.nome

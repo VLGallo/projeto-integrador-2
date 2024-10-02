@@ -11,5 +11,4 @@ urlpatterns = [
     path('', include("gerenciador_de_clientes.urls")),
     path('', include("gerenciador_de_produtos.urls")),
     path('', include("gerenciador_de_pedidos.urls")),
-    path('auth/', include("autenticacao.urls")),  #autenticação
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

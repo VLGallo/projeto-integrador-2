@@ -1,8 +1,8 @@
 from rest_framework import serializers
-
 from gerenciador_de_funcionarios.models import Funcionario
 from gerenciador_de_funcionarios.serializers import FuncionarioSerializer
 from .models import Motoboy
+import re
 
 
 class MotoboySerializerRequest(serializers.ModelSerializer):
@@ -11,6 +11,22 @@ class MotoboySerializerRequest(serializers.ModelSerializer):
     class Meta:
         model = Motoboy
         fields = ['id', 'nome', 'telefone', 'placa', 'funcionario']
+
+    # Função para remover caracteres especiais do telefone
+    def validate_telefone(self, value):
+        # Remove tudo que não é número
+        telefone_limpo = re.sub(r'\D', '', value)
+        if len(telefone_limpo) < 10 or len(telefone_limpo) > 11:
+            raise serializers.ValidationError("Telefone inválido. Deve conter 10 ou 11 dígitos.")
+        return telefone_limpo
+
+    # Função para remover traços e espaços da placa
+    def validate_placa(self, value):
+        # Remove traços, espaços e transforma tudo em maiúsculas
+        placa_limpa = re.sub(r'[^A-Za-z0-9]', '', value).upper()
+        if len(placa_limpa) != 7:
+            raise serializers.ValidationError("Placa inválida. Deve conter 7 caracteres.")
+        return placa_limpa
 
     def create(self, validated_data):
         funcionario = validated_data.pop('funcionario')
@@ -24,7 +40,6 @@ class MotoboySerializerRequest(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-
 class MotoboySerializerResponse(serializers.ModelSerializer):
     funcionario = FuncionarioSerializer()
 
@@ -33,4 +48,9 @@ class MotoboySerializerResponse(serializers.ModelSerializer):
         fields = ['id', 'nome', 'telefone', 'placa', 'funcionario']
 
 
+class MotoboySerializerResponse(serializers.ModelSerializer):
+    funcionario = FuncionarioSerializer()
 
+    class Meta:
+        model = Motoboy
+        fields = ['id', 'nome', 'telefone', 'placa', 'funcionario']
