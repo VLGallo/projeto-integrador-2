@@ -20,9 +20,10 @@ class MotoboyView(APIView):
         except IntegrityError:
             raise ValidationError({"detail": "Motoboy já cadastrado com o mesmo nome, telefone e placa."})
 
+
 class MotoboyListView(APIView):
     def get(self, request):
-        companies = Motoboy.objects.all()
+        companies = Motoboy.objects.all().order_by('id')
         serializer = MotoboySerializerResponse(companies, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -39,6 +40,7 @@ class MotoboyDetailView(APIView):
         motoboy = self.get_object(pk)
         serializer = MotoboySerializerResponse(motoboy)
         return Response(serializer.data)
+
 
 class MotoboyUpdateView(APIView):
     def get_object(self, pk):
@@ -69,4 +71,4 @@ class MotoboyDeleteView(APIView):
     def delete(self, request, pk):
         motoboy = self.get_object(pk)
         motoboy.delete()
-        return Response(status=status.HTTP_202_ACCEPTED, data="Motoboy deletado com sucesso")
+        return Response(status=status.HTTP_204_NO_CONTENT, data="Motoboy deletado com sucesso")

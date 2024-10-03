@@ -12,13 +12,18 @@ class MotoboySerializerRequest(serializers.ModelSerializer):
         model = Motoboy
         fields = ['id', 'nome', 'telefone', 'placa', 'funcionario']
 
-    # Função para remover caracteres especiais do telefone
+    # Função para tratar telefone
     def validate_telefone(self, value):
-        # Remove tudo que não é número
         telefone_limpo = re.sub(r'\D', '', value)
+
+        if telefone_limpo.startswith('0'):
+            telefone_limpo = telefone_limpo[1:]
+
         if len(telefone_limpo) < 10 or len(telefone_limpo) > 11:
             raise serializers.ValidationError("Telefone inválido. Deve conter 10 ou 11 dígitos.")
+
         return telefone_limpo
+
 
     # Função para remover traços e espaços da placa
     def validate_placa(self, value):
@@ -28,11 +33,13 @@ class MotoboySerializerRequest(serializers.ModelSerializer):
             raise serializers.ValidationError("Placa inválida. Deve conter 7 caracteres.")
         return placa_limpa
 
+
     def create(self, validated_data):
         funcionario = validated_data.pop('funcionario')
         funcionario = Funcionario.objects.get(pk=funcionario)
         validated_data['funcionario'] = funcionario
         return super().create(validated_data)
+
 
     def update(self, instance, validated_data):
         # Não permitir a atualização do cadastrante

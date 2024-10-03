@@ -30,7 +30,7 @@ class FuncionarioView(APIView):
 
 class FuncionarioListView(APIView):
     def get(self, request):
-        funcionarios = Funcionario.objects.all()
+        funcionarios = Funcionario.objects.all().order_by('id')
         serializer = FuncionarioSerializer(funcionarios, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)

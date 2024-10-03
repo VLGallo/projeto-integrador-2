@@ -22,7 +22,7 @@ class ProdutoView(APIView):
 
 class ProdutoListView(APIView):
     def get(self, request):
-        produtos = Produto.objects.all()
+        produtos = Produto.objects.all().order_by('nome')
         serializer = ProdutoSerializer(produtos, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
