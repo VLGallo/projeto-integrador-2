@@ -30,14 +30,13 @@ INSTALLED_APPS = [
     "gerenciador_de_clientes.apps.GerenciadorDeClientesConfig",
     "gerenciador_de_produtos.apps.GerenciadorDeProdutosConfig",
     "gerenciador_de_pedidos.apps.GerenciadorDePedidosConfig",
-    "autenticacao"
 ]
 
 # Authentication backends
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Para permitir login via username (se necessário)
-    'autenticacao.backends.EmailBackend',         # Nosso EmailBackend customizado
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',  # Para permitir login via username (se necessário)
+#     'autenticacao.backends.EmailBackend',         # Nosso EmailBackend customizado
+# ]
 
 CORS_ALLOW_METHODS = [
     'GET',
@@ -49,11 +48,11 @@ CORS_ALLOW_METHODS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    #     'rest_framework.authentication.BasicAuthentication',
+    # ],
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -110,8 +109,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "pizzaria_db",
-        "USER": "pizzaria_user",
-        "PASSWORD": "Senha1234!",
+# Substituir com dados da criação do no banco local
+        "USER": "root",
+        "PASSWORD": "",
         # Substituir se estiver usando um servidor remoto
         "HOST": "localhost",
         "PORT": "3306",

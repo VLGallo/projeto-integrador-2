@@ -32,7 +32,7 @@ class PedidoView(APIView):
 
 class PedidoListView(APIView):
     def get(self, request):
-        pedidos = Pedido.objects.all()
+        pedidos = Pedido.objects.all().order_by('id')
         pedidos_data = []
 
         for pedido in pedidos:
@@ -193,27 +193,29 @@ class PedidosAtribuidosMotoboyView(APIView):
         serializer = PedidoSerializerResponse(pedidos, many=True)
         pedidosSerializados = serializer.data
 
-        motoboy_serializer = MotoboySerializerResponse(motoboy)  # Serializa o motoboy completo
+        motoboy_serializer = MotoboySerializerResponse(motoboy)
 
-        # Retornar os dados dos pedidos e do motoboy com todos os campos, incluindo o total dos pedidos
         return Response({
             'motoboy': motoboy_serializer.data,
             'pedidos': pedidosSerializados
         }, status=status.HTTP_200_OK)
 
 
+from django.utils import timezone
+
 class PedidosAtribuidosMotoboysView(APIView):
     def get(self, request):
-        data_atual = date.today()
+        data_atual = timezone.now().date()  # Considera o timezone configurado no Django
         motoboys = Motoboy.objects.all()
         motoboys_pedidos = {}
 
+
         for motoboy in motoboys:
             pedidos = Pedido.objects.filter(
-                motoboy=motoboy,
-                data_hora_inicio__date=data_atual,
-                data_hora_finalizacao__isnull=False  # Filtra apenas pedidos com data_hora_finalizacao não nula
+                motoboy=motoboy
             )
+
+
             if pedidos.exists():
                 serializer = PedidoSerializerResponse(pedidos, many=True)
                 motoboy_serializer = MotoboySerializerResponse(motoboy)  # Serializa o motoboy completo
