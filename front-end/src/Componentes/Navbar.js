@@ -18,7 +18,7 @@ function Navbar() {
     }
 
     return (
-        <header>
+        <header className="fundoverde">
             {/* Engrenagem para mostrar o menu quando a tela estiver pequena */}
             <button className="nav-btn" onClick={toggleNavbar}>
                 <FaCog /> {/* Ícone de engrenagem */}
