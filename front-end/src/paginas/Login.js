@@ -8,6 +8,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar visibilidade da senha
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -19,12 +20,11 @@ function Login() {
         senha: password,
       });
 
-      // Verifica se o login foi bem-sucedido
       if (response.status === 200) {
         navigate('/Home');
       }
     } catch (error) {
-       setErrorMessage('Usuário ou senha incorretos');
+      setErrorMessage('Usuário ou senha incorretos');
     }
   };
 
@@ -55,17 +55,25 @@ function Login() {
           </div>
           <div className="form-group">
             <label htmlFor="password">Senha</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="Digite sua senha" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required 
-            />
+            <div className="password-container">
+              <input 
+                type={showPassword ? "text" : "password"} // Alterna entre "text" e "password"
+                id="password" 
+                placeholder="Digite sua senha" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required 
+              />
+              <span 
+                className="password-toggle" 
+                onClick={() => setShowPassword(!showPassword)} // Alterna a visibilidade da senha
+              >
+                {showPassword ? '🙈' : '👁️'} {/* Ícones de olho e olho fechado */}
+              </span>
+            </div>
           </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button type="submit" className="login-button">Login</button>
+          <button type="submit" className="login-button">Conecte-se</button>
         </form>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../css/CadastroCliente.css';
 
+
 const CadastroCliente = () => {
   const [formData, setFormData] = useState({
     nome: '',

@@ -25,6 +25,13 @@
   
 }
 
+.nav-logout {
+  background-color: red;
+  font-family: "Luckiest Guy", cursive;
+  
+}
+
+
 
 .nav-btn {
   display: none; 
@@ -35,12 +42,13 @@
     height: 40px;
     width: 100px;
     background-color: green;
+    
 
   }
 
 .nav-button a {
   text-decoration: none;
-  color: red;
+  color: white;
   font-family: "Luckiest Guy", cursive;
   
 }

@@ -157,3 +157,17 @@
 
 
 }
+
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  font-size: 18px;
+}
