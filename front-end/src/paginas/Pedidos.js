@@ -1,176 +1,210 @@
-import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import '../css/Pedidos.css'; 
 import logoImage from '../assets/img/favicon.png';  
 import pizzaIcon from '../assets/img/pizza.png';  
 
-const Pedidos = () => {
-  const [clientes, setClientes] = useState([]);
-  const [clienteSelecionado, setClienteSelecionado] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [itens, setItens] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [produtos, setProdutos] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 
-  // Carregar clientes
-  useEffect(() => {
-    const carregarCliente = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/cliente');
-        setClientes(response.data);
-      } catch (error) {
-        console.log('Erro ao carregar clientes:', error);
-      }
-    };
-    carregarCliente();
-  }, []);
+function not(a, b) {
+  return a.filter((value) => !b.includes(value));
+}
 
-  // Carregar produtos
-  useEffect(() => {
-    const carregarProdutos = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/produto');
-        setProdutos(response.data);
-      } catch (error) {
-        console.log('Erro ao carregar produtos:', error);
-      }
-    };
-    carregarProdutos();
-  }, []);
+function intersection(a, b) {
+  return a.filter((value) => b.includes(value));
+}
 
-  // Adicionar item
-  const adicionarItem = () => {
-    if (selectedProduct) {
-      setItens((prevItens) => [...prevItens, parseInt(selectedProduct)]);
-      setSelectedProduct('');
+export default function PedidoScreen() {
+  const [checked, setChecked] = React.useState([]);
+  const [left, setLeft] = React.useState(['Alpina', 'Baiana', 'Bacon', 'Brócolis', 'Catupiry']);
+  const [right, setRight] = React.useState([]);
+  const [cliente, setCliente] = React.useState('');
+
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
     }
+
+    setChecked(newChecked);
   };
 
-  // Remover item
-  const removerItem = (index) => {
-    const novosItens = [...itens];
-    novosItens.splice(index, 1);
-    setItens(novosItens);
+  const handleAllRight = () => {
+    setRight(right.concat(left));
+    setLeft([]);
   };
 
-  // Salvar pedido
-  const handleSalvar = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/pedido/add', {
-        cliente: parseInt(clienteSelecionado),
-        produtos: itens,
-        funcionario: 1, 
-      });
-      if (response.status >= 200 && response.status < 300) {
-        setModalVisible(true); 
-        setItens([]);
-        setClienteSelecionado('');
-        setEndereco('');
-        setTelefone('');
-      }
-    } catch (error) {
-      console.log('Erro ao salvar pedido:', error);
-    }
+  const handleCheckedRight = () => {
+    setRight(right.concat(leftChecked));
+    setLeft(not(left, leftChecked));
+    setChecked(not(checked, leftChecked));
   };
+
+  const handleCheckedLeft = () => {
+    setLeft(left.concat(rightChecked));
+    setRight(not(right, rightChecked));
+    setChecked(not(checked, rightChecked));
+  };
+
+  const handleAllLeft = () => {
+    setLeft(left.concat(right));
+    setRight([]);
+  };
+
+  const handleSave = () => {
+    console.log('Pedido salvo:', cliente, right);
+    // Lógica para salvar o pedido
+  };
+
+  const handleCancel = () => {
+    setCliente('');
+    setLeft(['Alpina', 'Baiana', 'Bacon', 'Brócolis', 'Catupiry']);
+    setRight([]);
+  };
+
+  const customList = (items) => (
+    <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
+      <List dense component="div" role="list">
+        {items.map((value) => {
+          const labelId = `transfer-list-item-${value}-label`;
+
+          return (
+            <ListItemButton
+              key={value}
+              role="listitem"
+              onClick={handleToggle(value)}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  checked={checked.includes(value)}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{
+                    'aria-labelledby': labelId,
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={value} />
+            </ListItemButton>
+          );
+        })}
+      </List>
+    </Paper>
+  );
 
   return (
-    <div className="pedidos-container">
-      <div className="pedidos-form">
-        <div className="form-header">
-          <img src={pizzaIcon} alt="Pizza" className="pizza-icon" />
-          <h1 className='ge'>Pedidos</h1>
-        </div>
-        <form onSubmit={handleSalvar}>
-          <div className="form-group">
-            <label htmlFor="cliente">Cliente</label>
-            <select
-              id="cliente"
-              value={clienteSelecionado}
-              onChange={(e) => setClienteSelecionado(e.target.value)}
-            >
-              <option value="">Selecione o cliente</option>
-              {clientes.map((cliente) => (
-                <option key={cliente.id} value={cliente.id}>
-                  {cliente.nome}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="endereco">Endereço</label>
-            <input
-              type="text"
-              id="endereco"
-              value={endereco}
-              onChange={(e) => setEndereco(e.target.value)}
-              placeholder="Digite o endereço"
-            />
-          </div>
+    
+    <Box className='pedidoscontainer' sx={{ p: 2 }}>
 
-          <div className="form-group">
-            <label htmlFor="telefone">Telefone</label>
-            <input
-              type="text"
-              id="telefone"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
-              placeholder="Digite o telefone"
-            />
-          </div>
+      
 
-          <div className="form-group">
-            <label htmlFor="itens">Itens</label>
-            <div className="itens-group">
-              <select
-                value={selectedProduct}
-                onChange={(e) => setSelectedProduct(e.target.value)}
-              >
-                <option value="">Selecione um produto</option>
-                {produtos.map((produto) => (
-                  <option key={produto.id} value={produto.id}>
-                    {produto.nome}
-                  </option>
-                ))}
-              </select>
-              <button type="button" className="itens-button" onClick={adicionarItem}>
-                +
-              </button>
-            </div>
-            <ul>
-              {itens.map((item, index) => (
-                <li key={index}>
-                  {produtos.find((produto) => produto.id === item)?.nome || item}
-                  <button type="button" onClick={() => removerItem(index)}>
-                    -
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="form-buttons">
-            <button type="submit" className="save-button">
-              Salvar
-            </button>
-            <button
-              type="button"
-              className="cancel-button"
-              onClick={() => {
-                setClienteSelecionado('');
-                setItens([]);
-              }}
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
+      <div className='Titulo'>
+        <h1 className='pedidot'>PEDIDOS 🍕</h1>
+        
       </div>
-    </div>
-  );
-};
+      
 
-export default Pedidos;
+      <Grid  sx={{ mb: 5 }}  container spacing={2} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Grid item xs={12}>
+        <TextField            
+            select            
+            fullWidth
+            label="Cliente"            
+            value={cliente}            
+            onChange={(e) => setCliente(e.target.value)}          
+            sx={{ mb: 20 }}  // Adicionei um espaçamento inferior de 30px
+          >      
+            {/* Adicione os clientes aqui */}
+            <MenuItem value="Cliente 1">Cliente 1</MenuItem>
+            <MenuItem value="Cliente 2">Cliente 2</MenuItem>
+          </TextField>
+        </Grid>
+
+        <Grid item>{customList(left)}</Grid>
+
+        <Grid item>
+          <Grid container direction="column" sx={{ alignItems: 'center' }}>
+            <Button
+              sx={{ my: 0.1 }}
+              variant="outlined"
+              size="small"
+              onClick={handleAllRight}
+              disabled={left.length === 0}
+              aria-label="move all right"
+            >
+              ≫
+            </Button>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedRight}
+              disabled={leftChecked.length === 0}
+              aria-label="move selected right"
+            >
+              &gt;
+            </Button>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedLeft}
+              disabled={rightChecked.length === 0}
+              aria-label="move selected left"
+            >
+              &lt;
+            </Button>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleAllLeft}
+              disabled={right.length === 0}
+              aria-label="move all left"
+            >
+              ≪
+            </Button>
+          </Grid>
+        </Grid>
+
+        <Grid item>{customList(right)}</Grid>
+
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleSave}
+          >
+            Salvar
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleCancel}
+          >
+            Cancelar
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

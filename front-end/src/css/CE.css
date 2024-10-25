@@ -10,11 +10,14 @@
   
   }
 
-  .titulo {
+  .ge {
     font-family: "Luckiest Guy", cursive;
     font-weight: 400;
     font-style: normal;
-    color: black;
+    color: red;
+    text-align: center;
+    font-size: 60px;
+
   }
 
   

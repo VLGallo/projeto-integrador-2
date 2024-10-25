@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/CadastroCliente.css';
-
+import { FaSearch } from 'react-icons/fa'; // Ícone de lupa
 
 const CadastroCliente = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const CadastroCliente = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Dados do cliente cadastrados:', formData);
-    // Aqui você pode implementar a lógica para enviar os dados para uma API, etc.
+    // Implementar lógica para enviar os dados para uma API
   };
 
   const handleCancel = () => {
@@ -34,6 +34,11 @@ const CadastroCliente = () => {
       complemento: '',
       bairro: ''
     });
+  };
+
+  const handleSearchCep = () => {
+    // Lógica para buscar o CEP usando API
+    console.log('Buscar informações do CEP:', formData.cep);
   };
 
   return (
@@ -62,12 +67,17 @@ const CadastroCliente = () => {
 
         <div className="form-group">
           <label>CEP</label>
-          <input
-            type="text"
-            name="cep"
-            value={formData.cep}
-            onChange={handleInputChange}
-          />
+          <div className="cep-container">
+            <input
+              type="text"
+              name="cep"
+              value={formData.cep}
+              onChange={handleInputChange}
+            />
+            <button type="button" className="cep-search-btn" onClick={handleSearchCep}>
+              <FaSearch />
+            </button>
+          </div>
         </div>
 
         <div className="form-group">
@@ -117,8 +127,6 @@ const CadastroCliente = () => {
           <button type="button" className="btn cancelar" onClick={handleCancel}>Cancelar</button>
         </div>
       </form>
-
-     
     </div>
   );
 };
