@@ -2,29 +2,20 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   Pressable,
   StyleSheet,
   Image,
   Picker,
+  Dimensions,
 } from "react-native";
-import {
-  FormControlLabel,
-  Checkbox,
-  Grid,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import Template from "../components/TemplatePrincipal";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CustomModal from "../components/CustomModal";
+import TransferList from "../components/TransferList";
 
-const TelaHome = () => {
+const TelaAtribuicao = () => {
   const navigation = useNavigation();
-
   const [pedido, setPedido] = useState("");
   const [selectedMotoboy, setSelectedMotoboy] = useState("");
   const [selectedPedido, setSelectedPedido] = useState("");
@@ -34,10 +25,24 @@ const TelaHome = () => {
   const [selectedPedidos, setSelectedPedidos] = useState([]);
   const [carregandoMotoboys, setCarregandoMotoboys] = useState(true);
   const [carregandoPedidos, setCarregandoPedidos] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     console.log(selectedMotoboy);
   });
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
 
   useEffect(() => {
     const carregarMotoboy = async () => {
@@ -67,6 +72,7 @@ const TelaHome = () => {
   }, []);
 
   const handleAtribuicao = async () => {
+    console.log("entrei");
     for (let i = 0; i < selectedPedidos.length; i++) {
       try {
         const response = await axios.put(
@@ -76,6 +82,7 @@ const TelaHome = () => {
             selectedMotoboy
         );
       } catch (error) {
+        console.log("teste");
         setModalVisible(true);
         console.log(error);
       }
@@ -114,9 +121,9 @@ const TelaHome = () => {
         modalText="Pedido(s) atribuído(s) com sucesso"
       />
       {/* Conteúdo do pedido */}
-      <View style={styles.containerSecundario}>
+      <View style={[styles.containerSecundario, { margin:30}]}>
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: 60 }]}>
+          <Text style={[styles.textPedido, { fontSize: isMobile ? 30 : 60,  marginTop:80}]}>
             Atribuição de Pedidos
           </Text>
         </View>
@@ -144,55 +151,17 @@ const TelaHome = () => {
               </Picker>
             </View>
 
-            <View style={{ marginTop: 20 }}>
-              <Grid container direction="column" spacing={0}>
-                <Typography style={{ fontWeight: "bold" }}>Itens</Typography>
-                {selectedPedidos.map((item, index) => (
-                  <Grid item container key={index} alignItems="center">
-                    <Grid item xs={8}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={true} // Altere para o estado do checkbox
-                            onChange={() => {}}
-                            color="primary"
-                          />
-                        }
-                        label={buscarPedido(item).id}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton onClick={() => removerPedido(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                ))}
-                <Grid item container alignItems="center">
-                  <Grid item xs={8}>
-                    <select
-                      style={styles.input}
-                      value={selectedPedido}
-                      onChange={(e) => setSelectedPedido(e.target.value)}
-                    >
-                      <option value="">Selecione um Pedido</option>
-                      {pedidos.map((pedido) => (
-                        <option key={pedido.id} value={pedido.id}>
-                          {pedido.id}
-                        </option>
-                      ))}
-                    </select>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <IconButton onClick={adicionarPedido}>
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Grid>
+            <View>
+              <Text style={styles.label}>Pedido</Text>
+              {!carregandoPedidos && (
+                <TransferList
+                  pedidos={pedidos}
+                  setSelectedPedidos={setSelectedPedidos}
+                />
+              )}
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", marginTop: 20 }}>
               <Pressable
                 style={[styles.button, { marginRight: 10 }]}
                 onPress={handleAtribuicao}
@@ -207,13 +176,15 @@ const TelaHome = () => {
               </Pressable>
             </View>
           </View>
-          <View style={{ flex: 1 }}>
-            <Image
-              source={require("../../assets/images/logo.png")}
-              style={[styles.image, { width: 440, height: 440 }]}
-              resizeMode="contain"
-            />
-          </View>
+          {!isMobile && (
+            <View style={{ flex: 1 }}>
+              <Image
+                source={require("../../assets/images/logo.png")}
+                style={[styles.image, { width: 440, height: 440 }]}
+                resizeMode="contain"
+              />
+            </View>
+          )}
         </View>
       </View>
     </Template>
@@ -229,7 +200,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#B20000",
     textAlign: "center",
-    fontFamily: "Impact",
+    fontFamily: "LuckiestGuy",
   },
   label: {
     fontSize: 16,
@@ -262,28 +233,17 @@ const styles = StyleSheet.create({
   },
   menuSuperior: {
     flexDirection: "row",
-    justifyContent: "center", // Centralizando os botões
+    justifyContent: "center", 
     alignItems: "center",
     marginTop: 20,
   },
-  menuButton: {
-    backgroundColor: "#015500",
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginRight: 10,
-  },
-  menuButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+
   tituloContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center", // Centralizando os elementos dentro do container do título
+    justifyContent: "center", 
     marginBottom: 20,
   },
 });
 
-export default TelaHome;
+export default TelaAtribuicao;

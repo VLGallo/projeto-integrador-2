@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,33 @@ import {
   Pressable,
   StyleSheet,
   Image,
+  Dimensions,
 } from "react-native";
 import Template from "../components/TemplatePrincipal";
 import CustomModal from "../components/CustomModal";
 import axios from "axios";
+import { useTheme } from "../context/ThemeContext";
 
 const TelaCadastro = () => {
   const [modalVisible, setModalVisible] = useState("");
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [placa, setPlaca] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
 
   const handleSalvar = async () => {
     try {
@@ -44,6 +61,48 @@ const TelaCadastro = () => {
     setPlaca("");
   };
 
+  const styles = StyleSheet.create({
+    label: {
+      fontSize: 16,
+      fontWeight: "bold",
+      marginBottom: 8,
+      color: isDarkMode ? "#000" : "#fff",
+    },
+    input: {
+      height: 40,
+      width: 150,
+      borderColor: isDarkMode ? "#ccc" : "#434141",
+      borderWidth: 1,
+      borderRadius: 4,
+      marginBottom: 16,
+      paddingHorizontal: 5,
+      backgroundColor: isDarkMode ? "#fff" : "#434141",
+      width: "80%",
+    },
+    button: {
+      backgroundColor: "#015500",
+      borderRadius: 10,
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      alignItems: "center",
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
+    tituloContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 20,
+    },
+    textEntregadores: {
+      fontFamily: "LuckiestGuy",
+      color: "rgb(178, 0, 0)",
+    },
+  });
+
   return (
     <Template imagem={"../../assets/images/bg-opaco.png"}>
       <CustomModal
@@ -53,7 +112,7 @@ const TelaCadastro = () => {
       />
 
       <View style={styles.tituloContainer}>
-        <Text style={[styles.textPedido, { fontSize: 60, fontWeight: "bold" }]}>
+        <Text style={[styles.textEntregadores, {  fontSize: isMobile ? 30 : 60, fontWeight: "bold" }]}>
           Cadastro de Entregadores
         </Text>
       </View>
@@ -99,58 +158,20 @@ const TelaCadastro = () => {
             </Pressable>
           </View>
         </View>
-
-        <View style={{ flex: 1 }}>
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={[styles.image, { width: 440, height: 440 }]}
-            resizeMode="contain"
-          />
-        </View>
+        {!isMobile && (
+          <View style={{ flex: 1 }}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={[styles.image, { width: 440, height: 440 }]}
+              resizeMode="contain"
+            />
+          </View>
+        )}
       </View>
     </Template>
   );
 };
 
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  input: {
-    height: 40,
-    width: 150,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 4,
-    marginBottom: 16,
-    paddingHorizontal: 5,
-    backgroundColor: "#fff",
-    width: "80%",
-  },
-  button: {
-    backgroundColor: "#015500",
-    borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  tituloContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-  textPedido: {
-    fontFamily: "Impact",
-    color: "rgb(178, 0, 0)",
-  },
-});
+
 
 export default TelaCadastro;

@@ -1,13 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import TelaLogin from "../telas/TelaLogin"; 
+import TelaLogin from "../telas/TelaLogin";
 import TelaHome from "../telas/TelaHome";
 import TelaPedido from "../telas/TelaPedido";
 import TelaAtribuicao from "../telas/TelaAtribuicao";
 import TelaCadastro from "../telas/TelaCadastro";
 import TelaRelatorio from "../telas/TelaRelatorio";
-import TelaCliente from "../telas/TelaCliente"; // Importando a nova tela
+import TelaCliente from "../telas/TelaCliente";
 
 const Stack = createStackNavigator();
 

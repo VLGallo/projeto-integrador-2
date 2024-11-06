@@ -1,26 +1,54 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
-  TextInput,
   Pressable,
   StyleSheet,
   ImageBackground,
-  Image,
+  Dimensions,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
 import SideNavigation from "../components/SideNavigation";
+import { useTheme } from "../context/ThemeContext";
 
-const Template = ({ children, imagem }) => {
+const Template = ({ children }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
 
-  useEffect(()=>{
-    console.log("teste" + imagem);
-  })
+  useEffect(() => {
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
+
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+  };
+
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        <SideNavigation />
+      </List>
+      <Divider />
+    </Box>
+  );
 
   const styles = StyleSheet.create({
     containerPrincipal: {
       flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: isDarkMode ? "#FFF" : "#000",
       flexDirection: "row",
     },
     leftContainer: {
@@ -28,87 +56,28 @@ const Template = ({ children, imagem }) => {
       width: "100%",
       alignItems: "center",
       justifyContent: "center",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundColor: "rgba(255, 255, 255, 0.0)",
     },
-    rightContainer: {
-      flex: 1,
-      width: 20,
-    },
-    image: {
-      width: 80,
-      height: 100,
-    },
-    textPedido: {
-      fontFamily: "Impact",
-      fontWeight: "bold",
-      color: "#B20000",
-      textAlign: "center", // Centralizando o texto
-    },
-    label: {
-      fontSize: 16,
-      fontWeight: "bold",
-      marginBottom: 8,
-    },
-    input: {
-      height: 40,
-      width: 150,
-      borderColor: "#ccc",
-      borderWidth: 1,
-      borderRadius: 4,
-      marginBottom: 16,
-      paddingHorizontal: 5,
-      backgroundColor: "#fff",
-      width: "80%",
-    },
-    button: {
-      backgroundColor: "#015500",
-      borderRadius: 10,
-      paddingVertical: 15,
-      paddingHorizontal: 15,
-      alignItems: "center",
-    },
-    buttonText: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-    posicaoImage: {
-      marginLeft: 20,
-    },
-    menuSuperior: {
-      flexDirection: "row",
-      justifyContent: "center", // Centralizando os botões
-      alignItems: "center",
-    },
-    menuButton: {
-      backgroundColor: "#015500",
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      marginRight: 10,
-    },
-    menuButtonText: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-    tituloContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center", // Centralizando os elementos dentro do container do título
-      marginBottom: 20,
-    }, 
     backImage: {
       flex: 2,
       justifyContent: "center",
-      width:"100%"
+      width: "100%",
     },
+    menuIcon: {
+      position: "absolute",
+      top: 40,
+      right: 20,
+      zIndex: 10,
+    }
   });
 
   return (
     <View style={styles.containerPrincipal}>
+      {isMobile && (
+        <Pressable style={styles.menuIcon} onPress={toggleDrawer(true)}>
+          <MaterialIcons name="menu" size={32} color="black" />
+        </Pressable>
+      )}
+
       <ImageBackground
         source={require("../../assets/images/bg-opaco.png")}
         resizeMode="cover"
@@ -117,13 +86,18 @@ const Template = ({ children, imagem }) => {
         <View style={styles.leftContainer}>{children}</View>
       </ImageBackground>
 
-      <View style={styles.rightContainer}>
-        <SideNavigation />
-      </View>
+      {!isMobile && (
+        <View style={styles.rightContainer}>
+          <SideNavigation />
+        </View>
+      )}
+
+      {/* Definimos `anchor="right"` para que o drawer abra do lado direito */}
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
     </View>
   );
 };
-
-
 
 export default Template;

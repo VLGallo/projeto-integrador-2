@@ -7,10 +7,12 @@ import {
   StyleSheet,
   Image,
   Picker,
+  Dimensions,
 } from "react-native";
 import Template from "../components/TemplatePrincipal";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { useTheme } from "../context/ThemeContext";
 import {
   FormControlLabel,
   Checkbox,
@@ -22,9 +24,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import CustomModal from "../components/CustomModal";
 
-const TelaHome = () => {
+const TelaPedido = () => {
   const navigation = useNavigation();
-
   const [endereco, setEndereco] = useState("");
   const [telefone, setTelefone] = useState("");
   const [clientes, setClientes] = useState("");
@@ -34,10 +35,22 @@ const TelaHome = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [itens, setItens] = useState([]);
   const [produtos, setProdutos] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
-    console.log("teste", clienteSelecionado);
-  });
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
+
 
   useEffect(() => {
     const carregarCliente = async () => {
@@ -63,7 +76,7 @@ const TelaHome = () => {
     console.log(produtosIds);
 
     try {
-      const response = await axios.post("http://localhost:8000/pedido/add", {
+      const response = await axios.post("localhost/pedido/add", {
         produtos: produtosIds,
         cliente: clienteSelecionado,
         funcionario: 2,
@@ -118,6 +131,53 @@ const TelaHome = () => {
     novosItens.splice(index, 1);
     setItens(novosItens);
   };
+  
+  const styles = StyleSheet.create({
+    image: {
+      width: 80,
+      height: 100,
+    },
+    textPedido: {
+      fontWeight: "bold",
+      color: "#B20000",
+      textAlign: "center",
+      fontFamily: "LuckiestGuy",
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: "bold",
+      marginBottom: 8,
+      color: isDarkMode ? "#000" : "#fff",
+    },
+    input: {
+      height: 40,
+      borderColor: isDarkMode ? "#ccc" : "#434141",
+      backgroundColor: isDarkMode ? "#fff" : "#434141",
+      borderWidth: 1,
+      borderRadius: 4,
+      marginBottom: 16,
+      paddingHorizontal: 5,
+      width: "100%",
+    },
+    button: {
+      backgroundColor: "#015500",
+      borderRadius: 10,
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      alignItems: "center",
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
+    tituloContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 20,
+    },
+  });
 
   return (
     <Template imagem={"../../assets/images/bg-opaco.png"}>
@@ -128,8 +188,14 @@ const TelaHome = () => {
       />
       <View>
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: 60 }]}>Pedidos</Text>
-         
+          <Text
+            style={[
+              styles.textPedido,
+              { fontSize: isMobile ? 30 : 60, marginTop: 80 },
+            ]}
+          >
+            Pedidos
+          </Text>
         </View>
 
         <View style={{ flexDirection: "row" }}>
@@ -157,7 +223,7 @@ const TelaHome = () => {
 
             <View style={{ marginTop: 20 }}>
               <Grid container direction="column" spacing={0}>
-                <Typography style={{ fontWeight: "bold" }}>Itens</Typography>
+                <Typography style={{ fontWeight: "bold",  color: isDarkMode ? "#000" : "#fff" }}>Itens</Typography>
                 {itens.map((item, index) => (
                   <Grid item container key={index} alignItems="center">
                     <Grid item xs={8}>
@@ -173,7 +239,7 @@ const TelaHome = () => {
                       />
                     </Grid>
                     <Grid item xs={2}>
-                      <IconButton  onClick={() => removerItem(index)}>
+                      <IconButton onClick={() => removerItem(index)}>
                         <DeleteIcon />
                       </IconButton>
                     </Grid>
@@ -232,71 +298,4 @@ const TelaHome = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  image: {
-    width: 80,
-    height: 100,
-  },
-  textPedido: {
-    fontWeight: "bold",
-    color: "#B20000",
-    textAlign: "center",
-    fontFamily: "Impact",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderRadius: 4,
-    marginBottom: 16,
-    paddingHorizontal: 5,
-    width: "100%",
-  },
-  button: {
-    backgroundColor: "#015500",
-    borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  posicaoImage: {
-    marginLeft: 20,
-  },
-  menuSuperior: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  menuButton: {
-    backgroundColor: "#015500",
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginRight: 10,
-  },
-  menuButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  tituloContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-});
-
-export default TelaHome;
+export default TelaPedido;

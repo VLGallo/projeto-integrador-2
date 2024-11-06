@@ -6,18 +6,26 @@ import {
   Image,
   ImageBackground,
   Pressable,
+  Dimensions,
+  TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../components/CustomModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialIcons } from '@expo/vector-icons'; 
+import { useTheme } from "../context/ThemeContext";
 
 const TelaLogin = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? "light" : "dark";
 
   const getCookie = async () => {
     const valorDoCookie = await AsyncStorage.getItem("usuario");
@@ -37,7 +45,7 @@ const TelaLogin = () => {
 
   useEffect(() => {
     verificaLogado();
-  }, []); // O segundo argumento vazio [] significa que este efeito só será executado após a primeira renderização
+  }, []); 
 
   const setCookie = async (usuario) => {
     try {
@@ -50,13 +58,10 @@ const TelaLogin = () => {
 
   const entrarTelaHome = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/login",
-        {
-          usuario: usuario,
-          senha: senha,
-        }
-      );
+      const response = await axios.post("http://localhost:8000/login", {
+        usuario: usuario,
+        senha: senha,
+      });
 
       console.log(response);
 
@@ -71,6 +76,19 @@ const TelaLogin = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+  
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -101,21 +119,33 @@ const TelaLogin = () => {
       </ImageBackground>
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={styles.rightHalfContent}>
-          <Text style={styles.text}> Login </Text>
+          <Text style={styles.textLogin}> Login </Text>
           <TextInput
             style={styles.input}
             placeholder="Usuário"
             value={usuario}
             onChangeText={(text) => setUsuario(text)}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Senha"
-            value={senha}
-            onChangeText={(text) => setSenha(text)}
-            secureTextEntry
-            focusable={true}
-          />
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputSenha}
+              placeholder="Senha"
+              value={senha}
+              onChangeText={(text) => setSenha(text)}
+              secureTextEntry={!showPassword} 
+            />
+            <TouchableOpacity
+              onPress={() => setShowPassword((prev) => !prev)}
+              style={styles.icon}
+            >
+              <MaterialIcons
+                name={showPassword ? "visibility-off" : "visibility"}
+                size={24}
+                color="gray"
+              />
+            </TouchableOpacity>
+          </View>
           <Pressable onPress={entrarTelaHome} style={styles.button}>
             <Text style={styles.buttonText}>Entrar</Text>
           </Pressable>
@@ -144,9 +174,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  text: {
-    fontSize: 40,
-    fontFamily: "Impact",
+  textLogin: {
+    fontSize: 60,
+    fontFamily: "LuckiestGuy",
     marginBottom: 10,
     color: "#B20000",
   },
@@ -158,37 +188,54 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 40,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#ccc",
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "80%",
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  inputSenha: {
+    flex: 1,
+    height: 40,
   },
   button: {
     backgroundColor: "#015500",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginTop: 15,
   },
   SistemaTitulo: {
-    fontFamily: "Impact",
+    fontFamily: "LuckiestGuy",
     fontSize: 80,
     color: "white",
   },
   SistemaSubTitulo: {
-    fontFamily: "Impact",
-
+    fontFamily: "LuckiestGuy",
     fontSize: 40,
     color: "white",
   },
   buttonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
   },
   imageLogo: {
     width: "100%",
@@ -203,6 +250,10 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+  icon: {
+    padding: 5,
+  },
 });
+
 
 export default TelaLogin;

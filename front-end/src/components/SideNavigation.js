@@ -2,24 +2,29 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MaterialSwitch from "../components/MaterialSwitch";
+import { useTheme } from "../context/ThemeContext";
 
-const SideNavigation = ({}) => {
+
+
+const SideNavigation = () => {
   const navigation = useNavigation();
+  
+  // Pega o estado e a função de alternância do contexto
+  const { isDarkMode, toggleTheme } = useTheme();
+
   const entrarTelaHome = () => {
-    navigation.navigate("TelaHome"); // Navega para a tela de pedido
+    navigation.navigate("TelaHome"); 
   };
 
   const entrarTelaCliente = () => {
-    navigation.navigate("TelaCliente"); // Navega para a tela do cliente
+    navigation.navigate("TelaCliente"); 
   };
-
-  const entraTelaCliente = () =>{
-    navigation.navigate("TelaCliente");
-  }
 
   const entrarTelaPedido = () => {
-    navigation.navigate("TelaPedido"); // Navega para a tela de pedido
+    navigation.navigate("TelaPedido"); 
   };
+
   const entrarTelaAtribuicao = () => {
     navigation.navigate("TelaAtribuicao");
   };
@@ -31,12 +36,6 @@ const SideNavigation = ({}) => {
   const entrarTelaRelatorio = () => {
     navigation.navigate("TelaRelatorio");
   };
-
-  const entrarTelaMotoboy = () => {
-    navigation.navigate("TelaMotoboy");
-  };
-
-
 
   const destroyCookie = () => {
     try {
@@ -53,35 +52,41 @@ const SideNavigation = ({}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Pressable onPress={entrarTelaHome} style={styles.button}>
-        <Text style={styles.buttonText}>Home</Text>
-      </Pressable>
+    <>
+      <View style={[styles.container, { margin: 30 }]}>
+        <View style={[styles.switch]}>
+          {/* Usa o toggleTheme diretamente do contexto */}
+          <MaterialSwitch onChange={toggleTheme} />
+        </View>
+        <Pressable onPress={entrarTelaHome} style={styles.button}>
+          <Text style={styles.buttonText}>Home</Text>
+        </Pressable>
 
-      <Pressable onPress={entrarTelaCliente} style={styles.button}>
-      <Text style={styles.buttonText}>Cliente</Text>
-      </Pressable>
+        <Pressable onPress={entrarTelaCliente} style={styles.button}>
+          <Text style={styles.buttonText}>Cliente</Text>
+        </Pressable>
 
-      <Pressable onPress={entrarTelaPedido} style={styles.button}>
-        <Text style={styles.buttonText}>Pedido</Text>
-      </Pressable>
-      <Pressable onPress={entrarTelaAtribuicao} style={styles.button}>
-        <Text style={styles.buttonText}>Atribuição</Text>
-      </Pressable>
-      <Pressable  onPress={entrarTelaRelatorio} style={styles.button}>
-        <Text style={styles.buttonText}>Relatório</Text>
-      </Pressable>
-      <Pressable onPress={entrarTelaCadastro} style={styles.button}>
-        <Text style={styles.buttonText}>Cadastro</Text>
-      </Pressable>
-  
-      <Pressable
-        onPress={handleSair}
-        style={[styles.button, { backgroundColor: "#B20000" }]}
-      >
-        <Text style={styles.buttonText}>Sair</Text>
-      </Pressable>
-    </View>
+        <Pressable onPress={entrarTelaPedido} style={styles.button}>
+          <Text style={styles.buttonText}>Pedido</Text>
+        </Pressable>
+        <Pressable onPress={entrarTelaAtribuicao} style={styles.button}>
+          <Text style={styles.buttonText}>Atribuição</Text>
+        </Pressable>
+        <Pressable onPress={entrarTelaRelatorio} style={styles.button}>
+          <Text style={styles.buttonText}>Relatório</Text>
+        </Pressable>
+        <Pressable onPress={entrarTelaCadastro} style={styles.button}>
+          <Text style={styles.buttonText}>Cadastro</Text>
+        </Pressable>
+
+        <Pressable
+          onPress={handleSair}
+          style={[styles.button, { backgroundColor: "#B20000" }]}
+        >
+          <Text style={styles.buttonText}>Sair</Text>
+        </Pressable>
+      </View>
+    </>
   );
 };
 
@@ -89,9 +94,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "left",
+    justifyContent: "left",
+  },
+  switch: {
+    marginBottom: 20,
   },
   image: {
     flex: 1,

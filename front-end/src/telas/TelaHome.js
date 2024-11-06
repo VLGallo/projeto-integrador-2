@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
-  TextInput,
-  Pressable,
   StyleSheet,
   ImageBackground,
-  Image,
+  Dimensions,
 } from "react-native";
 import Template from "../components/TemplatePrincipal";
+import { useTheme } from "../context/ThemeContext";
+
 
 const TelaHome = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? "light" : "dark";
+
+
+
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const width = Dimensions.get("window").width;
+      setIsMobile(width < 768);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+    updateLayout();
+  
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
+
   return (
     <Template>
       <ImageBackground
-        source={require("../../assets/images/imagem-home.jpg")}
+        source={
+          isMobile
+            ? require("../../assets/images/imagem-home-mobile.jpg")
+            : require("../../assets/images/imagem-home.jpg")
+        }
         resizeMode="cover"
         style={styles.backImage}
       >
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: 60 }]}>
+          <Text style={[styles.textPedido, { fontSize: isMobile ? 48 : 80, marginTop: 80 }]}>
             Gestão de Entregas
           </Text>
-          <View style={{ height: "80vh" }}></View>
+          <View style={{ height: "80vh" }} />
         </View>
       </ImageBackground>
     </Template>
@@ -31,15 +55,15 @@ const TelaHome = () => {
 
 const styles = StyleSheet.create({
   textPedido: {
-    fontWeight: "bold",
     color: "#ffffff",
     textAlign: "center",
-    fontFamily: "Impact",
+    fontFamily: "LuckiestGuy",
   },
   backImage: {
     flex: 2,
     justifyContent: "center",
-    width:"100%"
+    width: "100%",
+    height: "100%",
   },
   tituloContainer: {
     flexDirection: "column",
@@ -48,4 +72,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
 export default TelaHome;
