@@ -46,7 +46,6 @@ const TelaCliente = () => {
 
       if (response.status === 201) {
         setModalVisible(true);
-        // Limpar os campos após o sucesso
         setNome("");
         setTelefone("");
         setLogradouro("");
@@ -109,7 +108,7 @@ const TelaCliente = () => {
       borderRadius: 4,
       paddingHorizontal: 2,
       backgroundColor: isDarkMode ? "#fff" : "#434141",
-      width: "100%", 
+      width: "100%",
       marginBottom: 16,
     },
     row: {
@@ -126,7 +125,7 @@ const TelaCliente = () => {
       paddingVertical: 15,
       alignItems: "center",
     },
-  
+
     buttonText: {
       color: "#fff",
       textAlign: "center",
@@ -148,18 +147,13 @@ const TelaCliente = () => {
         setModalVisible={setModalVisible}
         modalText="Cliente cadastrado com sucesso"
       />
-  
+
       <View style={styles.tituloContainer}>
-        <Text
-          style={[
-            styles.textCliente, 
-            { fontSize: isMobile ? 30 : 60 }
-          ]}
-        >
+        <Text style={[styles.textCliente, { fontSize: isMobile ? 30 : 60 }]}>
           Cadastro de Clientes
         </Text>
       </View>
-  
+
       <View style={{ flexDirection: "row" }}>
         <View style={{ flex: 3 }}>
           <View>
@@ -170,7 +164,7 @@ const TelaCliente = () => {
               onChangeText={setNome}
             />
           </View>
-  
+
           <View style={styles.row}>
             <View style={styles.smallInputContainer}>
               <Text style={styles.label}>Telefone</Text>
@@ -189,7 +183,7 @@ const TelaCliente = () => {
               />
             </View>
           </View>
-  
+
           <View>
             <Text style={styles.label}>Logradouro</Text>
             <TextInput
@@ -198,7 +192,7 @@ const TelaCliente = () => {
               onChangeText={setLogradouro}
             />
           </View>
-  
+
           <View style={styles.row}>
             <View style={styles.smallInputContainer}>
               <Text style={styles.label}>Número</Text>
@@ -217,7 +211,7 @@ const TelaCliente = () => {
               />
             </View>
           </View>
-  
+
           <View>
             <Text style={styles.label}>Bairro</Text>
             <TextInput
@@ -226,7 +220,7 @@ const TelaCliente = () => {
               onChangeText={setBairro}
             />
           </View>
-  
+
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={[
@@ -249,8 +243,7 @@ const TelaCliente = () => {
             </Pressable>
           </View>
         </View>
-  
-        {/* Oculta a imagem em dispositivos móveis */}
+
         {!isMobile && (
           <View style={{ flex: 1 }}>
             <Image
@@ -263,9 +256,6 @@ const TelaCliente = () => {
       </View>
     </Template>
   );
-  
 };
-
-
 
 export default TelaCliente;

@@ -90,6 +90,107 @@ const TelaLogin = () => {
     };
   }, []);
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "row",
+    },
+    halfContainer: {
+      flex: 1,
+    },
+    rightHalfContent: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: isMobile ? -200 : 0,
+    },
+    textLogin: {
+      fontSize: 60,
+      fontFamily: "LuckiestGuy",
+      marginBottom: 10,
+      color: "#B20000",
+    },
+    backImage: {
+      flex: 2,
+      justifyContent: "center",
+    },
+    input: {
+      width: "80%",
+      height: 40,
+      borderWidth: 1,
+      borderColor: "#ccc",
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      borderRadius: 4,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+    },
+    inputContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: "80%",
+      marginBottom: 10,
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 4,
+      paddingHorizontal: 10,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+    },
+    inputSenha: {
+      flex: 1,
+      height: 40,
+    },
+    button: {
+      backgroundColor: "#015500",
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 5,
+      marginTop: 15,
+    },
+    SistemaTitulo: {
+      fontFamily: "LuckiestGuy",
+      fontSize: 80,
+      color: "white",
+      fontWeight: "bold",
+    },
+    SistemaSubTitulo: {
+      fontFamily: "LuckiestGuy",
+      fontSize: 40,
+      color: "white",
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    imageLogo: {
+      width: 300,
+      height: 300,
+      resizeMode: "contain",
+    },
+    centerImage: {
+      position: "absolute",
+      top: "50%",
+      left: "65%",
+      transform: [{ translateX: -200 }, { translateY: -10 }],
+    },
+    bottomImageMobile: {
+      position: "absolute",
+      bottom: 90,
+      alignSelf: "center",
+      left: "50%",
+      transform: [{ translateX: -150 }]
+    },
+    icon: {
+      padding: 5,
+    },
+  });
+
   return (
     <View style={styles.container}>
       <CustomModal
@@ -154,109 +255,15 @@ const TelaLogin = () => {
           </Pressable>
         </View>
       </View>
-      {!isMobile && (
       <Image
-        source={require("../../assets/images/logo.png")}
-        style={[styles.imageLogo, styles.centerImage]}
-      />
-    )}
+      source={require("../../assets/images/logo.png")}
+      style={[styles.imageLogo, isMobile ? styles.bottomImageMobile : styles.centerImage]}
+    />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  halfContainer: {
-    flex: 1,
-  },
-  rightHalfContent: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textLogin: {
-    fontSize: 60,
-    fontFamily: "LuckiestGuy",
-    marginBottom: 10,
-    color: "#B20000",
-  },
-  backImage: {
-    flex: 2,
-    justifyContent: "center",
-  },
-  input: {
-    width: "80%",
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "80%",
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    paddingHorizontal: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  inputSenha: {
-    flex: 1,
-    height: 40,
-  },
-  button: {
-    backgroundColor: "#015500",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 15,
-  },
-  SistemaTitulo: {
-    fontFamily: "LuckiestGuy",
-    fontSize: 80,
-    color: "white",
-  },
-  SistemaSubTitulo: {
-    fontFamily: "LuckiestGuy",
-    fontSize: 40,
-    color: "white",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  imageLogo: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
-  centerImage: {
-    position: "absolute",
-    top: "50%",
-    left: "65%",
-    transform: [{ translateX: -200 }, { translateY: -10 }],
-    width: 300,
-    height: 300,
-  },
-  icon: {
-    padding: 5,
-  },
-});
+
 
 
 export default TelaLogin;

@@ -1,9 +1,8 @@
-// AutoFillAddressByCep.js
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import axios from "axios";
 
-const AutoFillAddressByCep = ({ setCep, setLogradouro, setBairro, setCidade }) => {
+const AutoFillAddressByCep = ({ setCep, setLogradouro, setBairro }) => {
   const [CEP, setCEP] = useState("");
   const [error, setError] = useState("");
 
@@ -13,14 +12,13 @@ const AutoFillAddressByCep = ({ setCep, setLogradouro, setBairro, setCidade }) =
     if (newCep.length === 8) {
       try {
         const response = await axios.get(`https://viacep.com.br/ws/${newCep}/json/`);
-        const { logradouro, bairro, localidade } = response.data;
+        const { logradouro, bairro } = response.data;
 
         if (!response.data.erro) {
           setLogradouro(logradouro || "");
           setBairro(bairro || "");
-          setCidade(localidade || "");
           setCep(newCep || "");
-          setError(""); // Limpar o erro se o CEP for encontrado
+          setError(""); 
         } else {
           setError("CEP não encontrado.");
         }
@@ -40,8 +38,8 @@ const AutoFillAddressByCep = ({ setCep, setLogradouro, setBairro, setCidade }) =
         style={styles.input}
         value={CEP}
         onChangeText={handleCepChange}
-        maxLength={8} // Limitar o campo para 8 caracteres
-        keyboardType="numeric" // Para abrir o teclado numérico
+        maxLength={8} 
+        keyboardType="numeric"
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>

@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CustomModal from "../components/CustomModal";
 import TransferList from "../components/TransferList";
-import { useTheme } from "../context/ThemeContext"
+import { useTheme } from "../context/ThemeContext";
 
 const TelaAtribuicao = () => {
   const navigation = useNavigation();
@@ -122,10 +122,14 @@ const TelaAtribuicao = () => {
         setModalVisible={setModalVisible}
         modalText="Pedido(s) atribuído(s) com sucesso"
       />
-      {/* Conteúdo do pedido */}
-      <View style={[styles.containerSecundario, { margin:30}]}>
+      <View style={[styles.containerSecundario, { margin: 30 }]}>
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: isMobile ? 30 : 60,  marginTop:30}]}>
+          <Text
+            style={[
+              styles.textPedido,
+              { fontSize: isMobile ? 30 : 60, marginTop: 30 },
+            ]}
+          >
             Atribuição de Pedidos
           </Text>
         </View>
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
   },
   menuSuperior: {
     flexDirection: "row",
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
   },
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
   tituloContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center", 
+    justifyContent: "center",
     marginBottom: 20,
   },
 });

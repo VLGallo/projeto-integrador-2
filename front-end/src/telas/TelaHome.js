@@ -43,7 +43,7 @@ const TelaHome = () => {
         style={styles.backImage}
       >
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: isMobile ? 48 : 80, marginTop: 80 }]}>
+          <Text style={[styles.textHome, { fontSize: isMobile ? 48 : 80, marginTop: 80 }]}>
             Gestão de Entregas
           </Text>
           <View style={{ height: "80vh" }} />
@@ -54,10 +54,11 @@ const TelaHome = () => {
 };
 
 const styles = StyleSheet.create({
-  textPedido: {
+  textHome: {
     color: "#ffffff",
     textAlign: "center",
     fontFamily: "LuckiestGuy",
+    fontWeight: "bold",
   },
   backImage: {
     flex: 2,

@@ -126,10 +126,17 @@ const TelaRelatorio = () => {
 
   return (
     <Template imagem={"../../assets/images/bg-opaco.png"}>
-      <View style={styles.tituloContainer}>
-        <Text style={[styles.textRelatorio, { fontSize: 60 }]}>
-          Relatório de Entregas
-        </Text>
+      <View style={[styles.containerSecundario, { margin: 30 }]}>
+        <View style={styles.tituloContainer}>
+          <Text
+            style={[
+              styles.textRelatorio,
+              { fontSize: isMobile ? 30 : 60, marginTop: 30 },
+            ]}
+          >
+            Relatório de Entregas
+          </Text>
+        </View>
       </View>
 
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -191,13 +198,15 @@ const TelaRelatorio = () => {
           </View>
         )}
 
-        <View style={{ flex: 1 }}>
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={[styles.image, { width: 440, height: 440 }]}
-            resizeMode="contain"
-          />
-        </View>
+        {!isMobile && (
+          <View style={{ flex: 1 }}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={[styles.image, { width: 440, height: 440 }]}
+              resizeMode="contain"
+            />
+          </View>
+        )}
       </View>
     </Template>
   );

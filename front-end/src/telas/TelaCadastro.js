@@ -100,6 +100,7 @@ const TelaCadastro = () => {
     textEntregadores: {
       fontFamily: "LuckiestGuy",
       color: "rgb(178, 0, 0)",
+      fontWeight: "bold",
       textAlign: isMobile ? "center" : "left",
     },
   });
