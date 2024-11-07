@@ -191,13 +191,13 @@ const TelaPedido = () => {
           <Text
             style={[
               styles.textPedido,
-              { fontSize: isMobile ? 30 : 60, marginTop: 80 },
+              { fontSize: isMobile ? 30 : 60 }
             ]}
           >
             Pedidos
           </Text>
         </View>
-
+  
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 2, flexDirection: "column" }}>
             <View>
@@ -205,9 +205,7 @@ const TelaPedido = () => {
               <Picker
                 style={styles.input}
                 selectedValue={clienteSelecionado}
-                onValueChange={(itemValue, itemIndex) =>
-                  setClienteSelecionado(itemValue)
-                }
+                onValueChange={(itemValue) => setClienteSelecionado(itemValue)}
               >
                 <option value="">Selecione um Cliente</option>
                 {!carregandoClientes &&
@@ -220,17 +218,17 @@ const TelaPedido = () => {
                   ))}
               </Picker>
             </View>
-
+  
             <View style={{ marginTop: 20 }}>
               <Grid container direction="column" spacing={0}>
-                <Typography style={{ fontWeight: "bold",  color: isDarkMode ? "#000" : "#fff" }}>Itens</Typography>
+                <Typography style={{ fontWeight: "bold", color: isDarkMode ? "#000" : "#fff" }}>Itens</Typography>
                 {itens.map((item, index) => (
                   <Grid item container key={index} alignItems="center">
                     <Grid item xs={8}>
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={true} // Altere para o estado do checkbox
+                            checked={true}
                             onChange={() => {}}
                             color="primary"
                           />
@@ -268,7 +266,7 @@ const TelaPedido = () => {
                 </Grid>
               </Grid>
             </View>
-
+  
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <Pressable
                 style={[styles.button, { marginRight: 10 }]}
@@ -284,14 +282,17 @@ const TelaPedido = () => {
               </Pressable>
             </View>
           </View>
-
-          <View style={{ flex: 1, flexDirection: "column" }}>
-            <Image
-              source={require("../../assets/images/logo.png")}
-              style={[styles.image, { width: 440, height: 440 }]}
-              resizeMode="contain"
-            />
-          </View>
+  
+          {/* Oculta a imagem em dispositivos móveis */}
+          {!isMobile && (
+            <View style={{ flex: 1, flexDirection: "column" }}>
+              <Image
+                source={require("../../assets/images/logo.png")}
+                style={[styles.image, { width: 440, height: 440 }]}
+                resizeMode="contain"
+              />
+            </View>
+          )}
         </View>
       </View>
     </Template>

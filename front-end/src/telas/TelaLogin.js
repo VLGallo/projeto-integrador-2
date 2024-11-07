@@ -97,6 +97,7 @@ const TelaLogin = () => {
         setModalVisible={setModalVisible}
         modalText="Credenciais Inválidas"
       />
+      {!isMobile && (
       <ImageBackground
         source={require("../../assets/images/bg-opaco.png")}
         resizeMode="cover"
@@ -117,6 +118,8 @@ const TelaLogin = () => {
           </View>
         </View>
       </ImageBackground>
+    )}
+      
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={styles.rightHalfContent}>
           <Text style={styles.textLogin}> Login </Text>
@@ -151,12 +154,12 @@ const TelaLogin = () => {
           </Pressable>
         </View>
       </View>
-
-      {/* Imagem no centro */}
+      {!isMobile && (
       <Image
         source={require("../../assets/images/logo.png")}
         style={[styles.imageLogo, styles.centerImage]}
       />
+    )}
     </View>
   );
 };

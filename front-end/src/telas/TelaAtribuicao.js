@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CustomModal from "../components/CustomModal";
 import TransferList from "../components/TransferList";
+import { useTheme } from "../context/ThemeContext"
 
 const TelaAtribuicao = () => {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ const TelaAtribuicao = () => {
   const [carregandoMotoboys, setCarregandoMotoboys] = useState(true);
   const [carregandoPedidos, setCarregandoPedidos] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     console.log(selectedMotoboy);
@@ -123,7 +125,7 @@ const TelaAtribuicao = () => {
       {/* Conteúdo do pedido */}
       <View style={[styles.containerSecundario, { margin:30}]}>
         <View style={styles.tituloContainer}>
-          <Text style={[styles.textPedido, { fontSize: isMobile ? 30 : 60,  marginTop:80}]}>
+          <Text style={[styles.textPedido, { fontSize: isMobile ? 30 : 60,  marginTop:30}]}>
             Atribuição de Pedidos
           </Text>
         </View>

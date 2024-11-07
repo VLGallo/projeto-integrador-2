@@ -60,7 +60,6 @@ const TelaCliente = () => {
   };
 
   const handleCancelar = () => {
-    // Limpar os campos ao cancelar
     setNome("");
     setTelefone("");
     setLogradouro("");
@@ -144,122 +143,127 @@ const TelaCliente = () => {
 
   return (
     <Template imagem={"../../assets/images/bg-opaco.png"}>
-    <CustomModal
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
-      modalText="Cliente cadastrado com sucesso"
-    />
-
-    <View style={styles.tituloContainer}>
-      <Text
-        style={[
-          styles.textCliente,{ fontSize: isMobile ? 30 : 60, marginTop: 80 },
-        ]}
-      >
-        Cadastro de Clientes
-      </Text>
-    </View>
-
-    <View style={{ flexDirection: "row" }}>
-      <View style={{ flex: 3 }}>
-        <View>
-          <Text style={styles.label}>Nome</Text>
-          <TextInput
-            style={styles.input}
-            value={nome}
-            onChangeText={setNome}
-          />
-        </View>
-
-        <View style={styles.row}>
-          <View style={styles.smallInputContainer}>
-            <Text style={styles.label}>Telefone</Text>
-            <TextInput
-              style={styles.smallInput}
-              value={telefone}
-              onChangeText={setTelefone}
-            />
-          </View>
-          <View style={styles.smallInputContainer}>
-            <Text style={styles.label}>CEP</Text>
-            <TextInput
-              style={styles.smallInput}
-              value={cep}
-              onChangeText={setCep}
-            />
-          </View>
-        </View>
-
-        <View>
-          <Text style={styles.label}>Logradouro</Text>
-          <TextInput
-            style={styles.input}
-            value={logradouro}
-            onChangeText={setLogradouro}
-          />
-        </View>
-
-        <View style={styles.row}>
-          <View style={styles.smallInputContainer}>
-            <Text style={styles.label}>Número</Text>
-            <TextInput
-              style={styles.smallInput}
-              value={numero}
-              onChangeText={setNumero}
-            />
-          </View>
-          <View style={styles.smallInputContainer}>
-            <Text style={styles.label}>Complemento</Text>
-            <TextInput
-              style={styles.smallInput}
-              value={complemento}
-              onChangeText={setComplemento}
-            />
-          </View>
-        </View>
-
-        <View>
-          <Text style={styles.label}>Bairro</Text>
-          <TextInput
-            style={styles.input}
-            value={bairro}
-            onChangeText={setBairro}
-          />
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
-          <Pressable
-            style={[
-              styles.button,
-              {
-                backgroundColor: isFormValid() ? "#007BFF" : "#A9A9A9",
-                marginRight: 20,
-              },
-            ]}
-            onPress={handleCadastrar}
-            disabled={!isFormValid()}
-          >
-            <Text style={styles.buttonText}>Cadastrar</Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button, { backgroundColor: "#B20000" }]}
-            onPress={handleCancelar}
-          >
-            <Text style={styles.buttonText}>Cancelar</Text>
-          </Pressable>
-        </View>
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        modalText="Cliente cadastrado com sucesso"
+      />
+  
+      <View style={styles.tituloContainer}>
+        <Text
+          style={[
+            styles.textCliente, 
+            { fontSize: isMobile ? 30 : 60 }
+          ]}
+        >
+          Cadastro de Clientes
+        </Text>
       </View>
-
-      <View style={{ flex: 1 }}>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          style={[styles.image, { width: 440, height: 440 }]}
-          resizeMode="contain"
-        />
+  
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: 3 }}>
+          <View>
+            <Text style={styles.label}>Nome</Text>
+            <TextInput
+              style={styles.input}
+              value={nome}
+              onChangeText={setNome}
+            />
+          </View>
+  
+          <View style={styles.row}>
+            <View style={styles.smallInputContainer}>
+              <Text style={styles.label}>Telefone</Text>
+              <TextInput
+                style={styles.smallInput}
+                value={telefone}
+                onChangeText={setTelefone}
+              />
+            </View>
+            <View style={styles.smallInputContainer}>
+              <Text style={styles.label}>CEP</Text>
+              <TextInput
+                style={styles.smallInput}
+                value={cep}
+                onChangeText={setCep}
+              />
+            </View>
+          </View>
+  
+          <View>
+            <Text style={styles.label}>Logradouro</Text>
+            <TextInput
+              style={styles.input}
+              value={logradouro}
+              onChangeText={setLogradouro}
+            />
+          </View>
+  
+          <View style={styles.row}>
+            <View style={styles.smallInputContainer}>
+              <Text style={styles.label}>Número</Text>
+              <TextInput
+                style={styles.smallInput}
+                value={numero}
+                onChangeText={setNumero}
+              />
+            </View>
+            <View style={styles.smallInputContainer}>
+              <Text style={styles.label}>Complemento</Text>
+              <TextInput
+                style={styles.smallInput}
+                value={complemento}
+                onChangeText={setComplemento}
+              />
+            </View>
+          </View>
+  
+          <View>
+            <Text style={styles.label}>Bairro</Text>
+            <TextInput
+              style={styles.input}
+              value={bairro}
+              onChangeText={setBairro}
+            />
+          </View>
+  
+          <View style={{ flexDirection: "row" }}>
+            <Pressable
+              style={[
+                styles.button,
+                {
+                  backgroundColor: isFormValid() ? "#007BFF" : "#A9A9A9",
+                  marginRight: 20,
+                },
+              ]}
+              onPress={handleCadastrar}
+              disabled={!isFormValid()}
+            >
+              <Text style={styles.buttonText}>Cadastrar</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#B20000" }]}
+              onPress={handleCancelar}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </Pressable>
+          </View>
+        </View>
+  
+        {/* Oculta a imagem em dispositivos móveis */}
+        {!isMobile && (
+          <View style={{ flex: 1 }}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={[styles.image, { width: 440, height: 440 }]}
+              resizeMode="contain"
+            />
+          </View>
+        )}
       </View>
-    </View>
-  </Template> 
+    </Template>
   );
+  
 };
 
 

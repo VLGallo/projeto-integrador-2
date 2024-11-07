@@ -94,12 +94,13 @@ const TelaCadastro = () => {
     tituloContainer: {
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: isMobile ? "center" : "flex-start",
       marginBottom: 20,
     },
     textEntregadores: {
       fontFamily: "LuckiestGuy",
       color: "rgb(178, 0, 0)",
+      textAlign: isMobile ? "center" : "left",
     },
   });
 
@@ -112,7 +113,7 @@ const TelaCadastro = () => {
       />
 
       <View style={styles.tituloContainer}>
-        <Text style={[styles.textEntregadores, {  fontSize: isMobile ? 30 : 60, fontWeight: "bold" }]}>
+        <Text style={[styles.textEntregadores, {  fontSize: isMobile ? 30 : 60}]}>
           Cadastro de Entregadores
         </Text>
       </View>
