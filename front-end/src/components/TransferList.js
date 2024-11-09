@@ -7,6 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import { useTheme } from "../context/ThemeContext";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -17,13 +18,14 @@ function intersection(a, b) {
 }
 
 export default function TransferList({ pedidos, setSelectedPedidos }) {
-  // Recebe pedidos como prop
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState(pedidos); // Inicializa com todos os pedidos à esquerda
-  const [right, setRight] = React.useState([]); // Inicializa o lado direito vazio
+  const [left, setLeft] = React.useState(pedidos);
+  const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
+
+  const { isDarkMode } = useTheme();
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -42,7 +44,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
     const newRight = right.concat(left);
     setRight(newRight);
     setLeft([]);
-    setSelectedPedidos(newRight.map((pedido) => pedido.id)); // Passa apenas os IDs
+    setSelectedPedidos(newRight.map((pedido) => pedido.id));
   };
 
   const handleCheckedRight = () => {
@@ -50,7 +52,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
     setRight(newRight);
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
-    setSelectedPedidos(newRight.map((pedido) => pedido.id)); // Passa apenas os IDs
+    setSelectedPedidos(newRight.map((pedido) => pedido.id));
   };
 
   const handleCheckedLeft = () => {
@@ -62,32 +64,63 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
-    setSelectedPedidos([]); // Limpa os pedidos selecionados
+    setSelectedPedidos([]);
   };
 
   const customList = (items) => (
-    <Paper sx={{ width: 200, height: 230, overflow: "auto" }}>
+    <Paper
+      sx={{
+        width: 128,
+        height: 200,
+        overflow: "auto",
+        backgroundColor: isDarkMode ? "#fff" : "#434141",
+        color: isDarkMode ? "#fff" : "#000",
+        "&::-webkit-scrollbar": {
+          width: 12,
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: isDarkMode ?  "#f0f0f0" : "#2e2e2e",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: isDarkMode ? "#6b6b6b" : "#c1c1c1",
+        },
+      }}
+    >
       <List dense component="div" role="list">
         {items.map((value) => {
-          const labelId = `transfer-list-item-${value.id}-label`; // Supondo que cada pedido tenha um ID
+          const labelId = `transfer-list-item-${value.id}-label`;
 
           return (
             <ListItemButton
               key={value.id}
               role="listitem"
               onClick={handleToggle(value)}
+              sx={{
+                backgroundColor: isDarkMode ? "#fff" : "#434141",
+                color: isDarkMode ? "#000" : "#fff",
+                "&:hover": {
+                  backgroundColor: isDarkMode ? "#f0f0f0" : "#5a5a5a",
+                },
+              }}
             >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.includes(value)}
                   tabIndex={-1}
                   disableRipple
+                  sx={{
+                    color: isDarkMode ? "#000" : "#fff",
+                  }}
                   inputProps={{
                     "aria-labelledby": labelId,
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`${value.id}`} />
+              <ListItemText
+                id={labelId}
+                primary={`${value.id}`}
+                sx={{ color: isDarkMode ? "#000" : "#fff" }}
+              />
             </ListItemButton>
           );
         })}
@@ -111,7 +144,6 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleAllRight}
             disabled={left.length === 0}
-            aria-label="move all right"
           >
             ≫
           </Button>
@@ -122,7 +154,6 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
-            aria-label="move selected right"
           >
             &gt;
           </Button>
@@ -133,7 +164,6 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
-            aria-label="move selected left"
           >
             &lt;
           </Button>
@@ -144,7 +174,6 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleAllLeft}
             disabled={right.length === 0}
-            aria-label="move all left"
           >
             ≪
           </Button>

@@ -95,7 +95,7 @@ const TelaCadastro = () => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: isMobile ? "center" : "flex-start",
-      marginBottom: 20,
+      marginBottom: 40,
     },
     textEntregadores: {
       fontFamily: "LuckiestGuy",
@@ -114,7 +114,7 @@ const TelaCadastro = () => {
       />
 
       <View style={styles.tituloContainer}>
-        <Text style={[styles.textEntregadores, {  fontSize: isMobile ? 30 : 60}]}>
+        <Text style={[styles.textEntregadores, {  fontSize: isMobile ? 40 : 60}]}>
           Cadastro de Entregadores
         </Text>
       </View>

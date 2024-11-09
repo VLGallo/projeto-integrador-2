@@ -142,38 +142,106 @@ const TelaRelatorio = () => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         {!carregandoPedidosDoDia && (
           <View style={styles.container}>
-            <TableContainer component={Paper}>
+            <TableContainer
+              component={Paper}
+              style={{
+                backgroundColor: isDarkMode ? "#fff" : "#434141",
+                marginHorizontal: "auto",
+              }}
+            >
               <Table style={styles.tabela}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ fontSize: 20 }}>Motoboy</TableCell>
-                    <TableCell style={{ fontSize: 20 }}>Pedido</TableCell>
-                    <TableCell style={{ fontSize: 20 }}>Finalização</TableCell>
-                    <TableCell style={{ fontSize: 20 }}>Entregas</TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
+                        fontWeight: "bold", // Negrito
+                        color: isDarkMode ? "#000" : "#fff",
+                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                      }}
+                    >
+                      Motoboy
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
+                        fontWeight: "bold", // Negrito
+                        color: isDarkMode ? "#000" : "#fff",
+                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                      }}
+                    >
+                      Pedido
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
+                        fontWeight: "bold", // Negrito
+                        color: isDarkMode ? "#000" : "#fff",
+                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                      }}
+                    >
+                      Finalização
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
+                        fontWeight: "bold", // Negrito
+                        color: isDarkMode ? "#000" : "#fff",
+                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                      }}
+                    >
+                      Entregas
+                    </TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {Object.keys(pedidosDoDia).map((motoboyId) => (
                     <TableRow key={motoboyId}>
-                      <TableCell style={{ fontSize: 20 }}>
+                      <TableCell
+                        style={{
+                          fontSize: isMobile ? 14 : 18, // Tamanho da fonte ajustado para cada dispositivo
+                          color: isDarkMode ? "#000" : "#fff",
+                          padding: isMobile ? 4 : 16,
+                        }}
+                      >
                         {pedidosDoDia[motoboyId].motoboy.nome}
                       </TableCell>
-                      <TableCell style={{ fontSize: 20 }}>
+                      <TableCell
+                        style={{
+                          fontSize: isMobile ? 14 : 18,
+                          color: isDarkMode ? "#000" : "#fff",
+                          padding: isMobile ? 4 : 16,
+                        }}
+                      >
                         <ul style={{ listStyleType: "none", padding: 0 }}>
                           {pedidosDoDia[motoboyId].pedidos
                             .filter((pedido) => pedido.status === "Entregue")
                             .map((pedido) => (
-                              <li key={pedido.id}>{pedido.id}</li>
+                              <li
+                                key={pedido.id}
+                                style={{ color: isDarkMode ? "#000" : "#fff" }}
+                              >
+                                {pedido.id}
+                              </li>
                             ))}
                         </ul>
                       </TableCell>
-                      <TableCell style={{ fontSize: 20 }}>
+                      <TableCell
+                        style={{
+                          fontSize: isMobile ? 14 : 18,
+                          color: isDarkMode ? "#000" : "#fff",
+                          padding: isMobile ? 4 : 16,
+                        }}
+                      >
                         <div>
                           {pedidosDoDia[motoboyId].pedidos
                             .filter((pedido) => pedido.status === "Entregue")
                             .map((pedido) => (
-                              <li key={pedido.id}>
+                              <li
+                                key={pedido.id}
+                                style={{ color: isDarkMode ? "#000" : "#fff" }}
+                              >
                                 {pedido.data_hora_finalizacao
                                   ? new Date(
                                       pedido.data_hora_finalizacao
@@ -183,7 +251,14 @@ const TelaRelatorio = () => {
                             ))}
                         </div>
                       </TableCell>
-                      <TableCell style={{ fontSize: 20 }}>
+                      <TableCell
+                        style={{
+                          fontSize: isMobile ? 14 : 18,
+                          color: isDarkMode ? "#000" : "#fff",
+                          padding: isMobile ? 4 : 16,
+                          textAlign: "center",
+                        }}
+                      >
                         {
                           pedidosDoDia[motoboyId].pedidos.filter(
                             (pedido) => pedido.status === "Entregue"

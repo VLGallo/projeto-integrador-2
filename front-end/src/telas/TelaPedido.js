@@ -51,7 +51,6 @@ const TelaPedido = () => {
     };
   }, []);
 
-
   useEffect(() => {
     const carregarCliente = async () => {
       try {
@@ -131,7 +130,7 @@ const TelaPedido = () => {
     novosItens.splice(index, 1);
     setItens(novosItens);
   };
-  
+
   const styles = StyleSheet.create({
     image: {
       width: 80,
@@ -188,40 +187,49 @@ const TelaPedido = () => {
       />
       <View>
         <View style={styles.tituloContainer}>
-          <Text
-            style={[
-              styles.textPedido,
-              { fontSize: isMobile ? 30 : 60 }
-            ]}
-          >
+          <Text style={[styles.textPedido, { fontSize: isMobile ? 30 : 60 }]}>
             Pedidos
           </Text>
         </View>
-  
+
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 2, flexDirection: "column" }}>
             <View>
               <Text style={styles.label}>Cliente</Text>
               <Picker
-                style={styles.input}
                 selectedValue={clienteSelecionado}
                 onValueChange={(itemValue) => setClienteSelecionado(itemValue)}
+                style={[
+                  styles.input,
+                  {
+                    color: isDarkMode ? "#000" : "#fff", 
+                    backgroundColor: isDarkMode ? "#fff" : "#434141", 
+                  },
+                ]}
               >
-                <option value="">Selecione um Cliente</option>
+                <Picker.Item label="Selecione um cliente" value="" />
                 {!carregandoClientes &&
                   clientes.map((cliente) => (
                     <Picker.Item
                       key={cliente.id}
                       label={cliente.nome}
                       value={cliente.id}
+                      color={isDarkMode ? "#000" : "#fff"} 
                     />
                   ))}
               </Picker>
             </View>
-  
+
             <View style={{ marginTop: 20 }}>
               <Grid container direction="column" spacing={0}>
-                <Typography style={{ fontWeight: "bold", color: isDarkMode ? "#000" : "#fff" }}>Itens</Typography>
+                <Typography
+                  style={{
+                    fontWeight: "bold",
+                    color: isDarkMode ? "#000" : "#fff",
+                  }}
+                >
+                  Itens
+                </Typography>
                 {itens.map((item, index) => (
                   <Grid item container key={index} alignItems="center">
                     <Grid item xs={8}>
@@ -266,7 +274,7 @@ const TelaPedido = () => {
                 </Grid>
               </Grid>
             </View>
-  
+
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <Pressable
                 style={[styles.button, { marginRight: 10 }]}
@@ -282,7 +290,7 @@ const TelaPedido = () => {
               </Pressable>
             </View>
           </View>
-  
+
           {/* Oculta a imagem em dispositivos móveis */}
           {!isMobile && (
             <View style={{ flex: 1, flexDirection: "column" }}>

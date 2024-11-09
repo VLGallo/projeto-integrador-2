@@ -115,6 +115,63 @@ const TelaAtribuicao = () => {
     setSelectedPedidos(novosPedidos);
   };
 
+  const styles = StyleSheet.create({
+    image: {
+      width: 80,
+      height: 100,
+    },
+    textPedido: {
+      fontWeight: "bold",
+      color: "#B20000",
+      textAlign: "center",
+      fontFamily: "LuckiestGuy",
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: "bold",
+      marginBottom: 8,
+      color: isDarkMode ? "#000" : "#fff",
+    },
+    input: {
+      height: 40,
+      backgroundColor: isDarkMode ? "#fff" : "#434141",
+      borderColor: isDarkMode ? "#ccc" : "#434141",
+      borderWidth: 1,
+      borderRadius: 4,
+      marginBottom: 16,
+      paddingHorizontal: 5,
+      width: "80%",
+    },
+    button: {
+      backgroundColor: "#015500",
+      borderRadius: 10,
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      alignItems: "center",
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
+    posicaoImage: {
+      marginLeft: 20,
+    },
+    menuSuperior: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 20,
+    },
+
+    tituloContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 20,
+    },
+  });
+
   return (
     <Template imagem={"../../assets/images/bg-opaco.png"}>
       <CustomModal
@@ -140,10 +197,14 @@ const TelaAtribuicao = () => {
               <Text style={styles.label}>Motoboy</Text>
               <Picker
                 selectedValue={selectedMotoboy}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedMotoboy(itemValue)
-                }
-                style={styles.input}
+                onValueChange={(itemValue) => setSelectedMotoboy(itemValue)}
+                style={[
+                  styles.input,
+                  {
+                    color: isDarkMode ? "#000" : "#fff", 
+                    backgroundColor: isDarkMode ? "#fff" : "#434141", 
+                  },
+                ]}
               >
                 <Picker.Item label="Selecione um motoboy" value="" />
                 {!carregandoMotoboys &&
@@ -152,6 +213,7 @@ const TelaAtribuicao = () => {
                       key={motoboy.id}
                       label={motoboy.nome}
                       value={motoboy.id}
+                      color={isDarkMode ? "#000" : "#fff"} 
                     />
                   ))}
               </Picker>
@@ -196,60 +258,5 @@ const TelaAtribuicao = () => {
     </Template>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: 80,
-    height: 100,
-  },
-  textPedido: {
-    fontWeight: "bold",
-    color: "#B20000",
-    textAlign: "center",
-    fontFamily: "LuckiestGuy",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 4,
-    marginBottom: 16,
-    paddingHorizontal: 5,
-    width: "80%",
-  },
-  button: {
-    backgroundColor: "#015500",
-    borderRadius: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  posicaoImage: {
-    marginLeft: 20,
-  },
-  menuSuperior: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-  },
-
-  tituloContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-});
 
 export default TelaAtribuicao;
