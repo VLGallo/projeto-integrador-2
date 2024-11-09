@@ -57,9 +57,7 @@ REST_FRAMEWORK = {
     # ],
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost"
-]
+CORS_ALLOWED_ORIGINS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
