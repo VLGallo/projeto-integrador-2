@@ -14,6 +14,7 @@ import axios from "axios";
 import CustomModal from "../components/CustomModal";
 import TransferList from "../components/TransferList";
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from '@env';
 
 const TelaAtribuicao = () => {
   const navigation = useNavigation();
@@ -49,7 +50,7 @@ const TelaAtribuicao = () => {
   useEffect(() => {
     const carregarMotoboy = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/motoboy");
+        const response = await axios.get(BASE_URL + "/motoboy");
 
         setMotoboys(response.data);
         setCarregandoMotoboys(false);
@@ -60,7 +61,7 @@ const TelaAtribuicao = () => {
 
     const carregarPedidos = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/pedido");
+        const response = await axios.get(BASE_URL + "/pedido");
         console.log(response.data);
         setPedidos(response.data);
         setCarregandoPedidos(false);
@@ -78,7 +79,7 @@ const TelaAtribuicao = () => {
     for (let i = 0; i < selectedPedidos.length; i++) {
       try {
         const response = await axios.put(
-          "http://localhost:8000/pedido/" +
+          BASE_URL + "/pedido/" +
             selectedPedidos[i] +
             "/atribuir-motoboy/" +
             selectedMotoboy

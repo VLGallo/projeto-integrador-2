@@ -16,6 +16,7 @@ import CustomModal from "../components/CustomModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from '@env';
 
 const TelaLogin = () => {
   const navigation = useNavigation();
@@ -58,7 +59,7 @@ const TelaLogin = () => {
 
   const entrarTelaHome = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/login", {
+      const response = await axios.post(BASE_URL + "/login", {
         usuario: usuario,
         senha: senha,
       });

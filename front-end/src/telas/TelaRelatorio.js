@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { BASE_URL } from '@env';
 
 const TelaRelatorio = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -24,14 +25,40 @@ const TelaRelatorio = () => {
   useEffect(() => {
     const carregarPedidosDoDia = async () => {
       try {
-        setCarregandoMotoboys(true);
-
+        setCarregandoPedidosDoDia(true);
         const response = await axios.get(
-          "http://localhost:8000/pedido/motoboys"
+          BASE_URL + "/pedido/motoboys"
         );
 
-        setPedidosDoDia(response.data);
-        console.log(response.data);
+        const dataAtual = new Date().toISOString().slice(0, 10); // Formato "YYYY-MM-DD"
+
+        // Filtrando os pedidos entregues na data de hoje
+        const pedidosEntreguesHoje = Object.values(response.data).flatMap(
+          (motoboy) =>
+            motoboy.pedidos.filter(
+              (pedido) =>
+                pedido.data_hora_finalizacao &&
+                pedido.data_hora_finalizacao.slice(0, 10) === dataAtual
+            )
+        );
+
+        // Agrupando pedidos por motoboy
+        const groupedPedidos = pedidosEntreguesHoje.reduce((acc, pedido) => {
+          const nomeMotoboy = pedido.motoboy?.nome || "N/A";
+          if (!acc[nomeMotoboy]) {
+            acc[nomeMotoboy] = {
+              nome: nomeMotoboy,
+              pedidos: [],
+            };
+          }
+          acc[nomeMotoboy].pedidos.push(pedido);
+          return acc;
+        }, {});
+
+        // Convertendo o objeto para um array de motoboys com pedidos agrupados
+        const pedidosAgrupados = Object.values(groupedPedidos);
+
+        setPedidosDoDia(pedidosAgrupados);
         setCarregandoPedidosDoDia(false);
       } catch (error) {
         console.log(error);
@@ -154,118 +181,124 @@ const TelaRelatorio = () => {
                   <TableRow>
                     <TableCell
                       style={{
-                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
-                        fontWeight: "bold", // Negrito
+                        fontSize: isMobile ? 14 : 20,
+                        fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
-                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                        padding: isMobile ? 4 : 16,
                       }}
                     >
                       Motoboy
                     </TableCell>
                     <TableCell
                       style={{
-                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
-                        fontWeight: "bold", // Negrito
+                        fontSize: isMobile ? 14 : 20,
+                        fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
-                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                        padding: isMobile ? 4 : 16,
                       }}
                     >
                       Pedido
                     </TableCell>
                     <TableCell
                       style={{
-                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
-                        fontWeight: "bold", // Negrito
+                        fontSize: isMobile ? 14 : 20,
+                        fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
-                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                        padding: isMobile ? 4 : 16,
                       }}
                     >
                       Finalização
                     </TableCell>
                     <TableCell
                       style={{
-                        fontSize: isMobile ? 14 : 20, // Tamanho da fonte menor para mobile
-                        fontWeight: "bold", // Negrito
+                        fontSize: isMobile ? 14 : 20,
+                        fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
-                        padding: isMobile ? 4 : 16, // Padding menor para mobile
+                        padding: isMobile ? 4 : 16,
                       }}
                     >
                       Entregas
                     </TableCell>
                   </TableRow>
                 </TableHead>
-
                 <TableBody>
-                  {Object.keys(pedidosDoDia).map((motoboyId) => (
-                    <TableRow key={motoboyId}>
-                      <TableCell
-                        style={{
-                          fontSize: isMobile ? 14 : 18, // Tamanho da fonte ajustado para cada dispositivo
-                          color: isDarkMode ? "#000" : "#fff",
-                          padding: isMobile ? 4 : 16,
-                        }}
-                      >
-                        {pedidosDoDia[motoboyId].motoboy.nome}
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          fontSize: isMobile ? 14 : 18,
-                          color: isDarkMode ? "#000" : "#fff",
-                          padding: isMobile ? 4 : 16,
-                        }}
-                      >
-                        <ul style={{ listStyleType: "none", padding: 0 }}>
-                          {pedidosDoDia[motoboyId].pedidos
-                            .filter((pedido) => pedido.status === "Entregue")
-                            .map((pedido) => (
-                              <li
-                                key={pedido.id}
-                                style={{ color: isDarkMode ? "#000" : "#fff" }}
+                  {pedidosDoDia.map((motoboy, index) => (
+                    <React.Fragment key={index}>
+                      {motoboy.pedidos.map((pedido, i) => (
+                        <TableRow key={i}>
+                          {/* Nome do motoboy e número de entregas mesclados */}
+                          {i === 0 && (
+                            <>
+                              <TableCell
+                                rowSpan={motoboy.pedidos.length}
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                }}
+                              >
+                                {motoboy.nome}
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                }}
                               >
                                 {pedido.id}
-                              </li>
-                            ))}
-                        </ul>
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          fontSize: isMobile ? 14 : 18,
-                          color: isDarkMode ? "#000" : "#fff",
-                          padding: isMobile ? 4 : 16,
-                        }}
-                      >
-                        <div>
-                          {pedidosDoDia[motoboyId].pedidos
-                            .filter((pedido) => pedido.status === "Entregue")
-                            .map((pedido) => (
-                              <li
-                                key={pedido.id}
-                                style={{ color: isDarkMode ? "#000" : "#fff" }}
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                }}
                               >
                                 {pedido.data_hora_finalizacao
-                                  ? new Date(
-                                      pedido.data_hora_finalizacao
-                                    ).toLocaleTimeString()
+                                  ? new Date(pedido.data_hora_finalizacao).toLocaleTimeString()
                                   : "-"}
-                              </li>
-                            ))}
-                        </div>
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          fontSize: isMobile ? 14 : 18,
-                          color: isDarkMode ? "#000" : "#fff",
-                          padding: isMobile ? 4 : 16,
-                          textAlign: "center",
-                        }}
-                      >
-                        {
-                          pedidosDoDia[motoboyId].pedidos.filter(
-                            (pedido) => pedido.status === "Entregue"
-                          ).length
-                        }
-                      </TableCell>
-                    </TableRow>
+                              </TableCell>
+                              <TableCell
+                                rowSpan={motoboy.pedidos.length}
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {motoboy.pedidos.length}
+                              </TableCell>
+                            </>
+                          )}
+                          {i > 0 && (
+                            <>
+                              <TableCell
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                }}
+                              >
+                                {pedido.id}
+                              </TableCell>
+                              <TableCell
+                                style={{
+                                  fontSize: isMobile ? 14 : 18,
+                                  color: isDarkMode ? "#000" : "#fff",
+                                  padding: isMobile ? 4 : 16,
+                                }}
+                              >
+                                {pedido.data_hora_finalizacao
+                                  ? new Date(pedido.data_hora_finalizacao).toLocaleTimeString()
+                                  : "-"}
+                              </TableCell>
+                            </>
+                          )}
+                        </TableRow>
+                      ))}
+                    </React.Fragment>
                   ))}
                 </TableBody>
               </Table>

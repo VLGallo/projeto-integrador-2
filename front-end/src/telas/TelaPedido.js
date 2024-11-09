@@ -20,20 +20,18 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import CustomModal from "../components/CustomModal";
+import TransferListProduto from "../components/TransferListProduto";
+import { BASE_URL } from '@env';
+
 
 const TelaPedido = () => {
-  const navigation = useNavigation();
-  const [endereco, setEndereco] = useState("");
-  const [telefone, setTelefone] = useState("");
   const [clientes, setClientes] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState("");
   const [carregandoClientes, setCarregandoClientes] = useState(true);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [itens, setItens] = useState([]);
+  const [carregandoProdutos, setCarregandoProdutos] = useState(true);
   const [produtos, setProdutos] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();
@@ -54,7 +52,7 @@ const TelaPedido = () => {
   useEffect(() => {
     const carregarCliente = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/cliente");
+        const response = await axios.get(BASE_URL + "/cliente");
         setClientes(response.data);
         setCarregandoClientes(false);
       } catch (error) {
@@ -70,12 +68,13 @@ const TelaPedido = () => {
       (cliente) => cliente.id == clienteSelecionado
     );
     console.log(clienteSelecionadoObj);
+    console.log(itens);
 
-    const produtosIds = itens.map((item) => item);
+    const produtosIds = itens.map((item) => item.id);
     console.log(produtosIds);
 
     try {
-      const response = await axios.post("localhost/pedido/add", {
+      const response = await axios.post(BASE_URL + "/pedido/add", {
         produtos: produtosIds,
         cliente: clienteSelecionado,
         funcionario: 2,
@@ -95,40 +94,24 @@ const TelaPedido = () => {
 
   const carregarProdutos = async () => {
     try {
-      const response = await fetch("http://localhost:8000/produto");
+      const response = await fetch(BASE_URL + "/produto");
       const data = await response.json();
       setProdutos(data);
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
+    } finally {
+      setCarregandoProdutos(false); // Mover para o final da função
     }
   };
 
-  const buscarProduto = (produtoId) => {
-    const produtoEncontrado = produtos.find(
-      (produto) => produto.id == produtoId
-    );
-    return produtoEncontrado;
-  };
-
   useEffect(() => {
+    setCarregandoProdutos(true); // Inicia o carregamento
     carregarProdutos();
   }, []);
 
   const handleCancelar = () => {
     setClienteSelecionado([]);
     setItens([]);
-  };
-
-  const adicionarItem = () => {
-    if (selectedProduct) {
-      setItens((prevItens) => [...prevItens, selectedProduct]);
-      setSelectedProduct("");
-    }
-  };
-  const removerItem = (index) => {
-    const novosItens = [...itens];
-    novosItens.splice(index, 1);
-    setItens(novosItens);
   };
 
   const styles = StyleSheet.create({
@@ -202,8 +185,8 @@ const TelaPedido = () => {
                 style={[
                   styles.input,
                   {
-                    color: isDarkMode ? "#000" : "#fff", 
-                    backgroundColor: isDarkMode ? "#fff" : "#434141", 
+                    color: isDarkMode ? "#000" : "#fff",
+                    backgroundColor: isDarkMode ? "#fff" : "#434141",
                   },
                 ]}
               >
@@ -214,7 +197,7 @@ const TelaPedido = () => {
                       key={cliente.id}
                       label={cliente.nome}
                       value={cliente.id}
-                      color={isDarkMode ? "#000" : "#fff"} 
+                      color={isDarkMode ? "#000" : "#fff"}
                     />
                   ))}
               </Picker>
@@ -230,48 +213,15 @@ const TelaPedido = () => {
                 >
                   Itens
                 </Typography>
-                {itens.map((item, index) => (
-                  <Grid item container key={index} alignItems="center">
-                    <Grid item xs={8}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={true}
-                            onChange={() => {}}
-                            color="primary"
-                          />
-                        }
-                        label={buscarProduto(item).nome}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton onClick={() => removerItem(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                ))}
-                <Grid item container alignItems="center">
-                  <Grid item xs={8}>
-                    <select
-                      style={styles.input}
-                      value={selectedProduct}
-                      onChange={(e) => setSelectedProduct(e.target.value)}
-                    >
-                      <option value="">Selecione um produto</option>
-                      {produtos.map((produto) => (
-                        <option key={produto.id} value={produto.id}>
-                          {produto.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <IconButton onClick={adicionarItem}>
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
+
+                <View>
+                  {!carregandoProdutos && (
+                    <TransferListProduto
+                      produtos={produtos}
+                      setSelectedProdutos={setItens}
+                    />
+                  )}
+                </View>
               </Grid>
             </View>
 

@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import Template from "../components/TemplatePrincipal";
 import CustomModal from "../components/CustomModal";
-import AutoFillAddressByCep from "../components/AutoFillAddressByCep";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from '@env';
 
 const TelaCliente = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -34,7 +34,7 @@ const TelaCliente = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/cliente/add", {
+      const response = await axios.post(BASE_URL + "/cliente/add", {
         nome,
         telefone,
         cep,
@@ -48,6 +48,7 @@ const TelaCliente = () => {
         setModalVisible(true);
         setNome("");
         setTelefone("");
+        setCep("");
         setLogradouro("");
         setBairro("");
         setNumero("");
@@ -61,6 +62,7 @@ const TelaCliente = () => {
   const handleCancelar = () => {
     setNome("");
     setTelefone("");
+    setCep("");
     setLogradouro("");
     setBairro("");
     setNumero("");
@@ -69,6 +71,30 @@ const TelaCliente = () => {
 
   const isFormValid = () => {
     return nome && telefone && logradouro && bairro && numero;
+  };
+
+  const handleCepChange = async (newCep) => {
+    setCep(newCep);
+
+    // Verifica se o CEP tem 8 dígitos
+    if (newCep.length === 8) {
+      try {
+        const response = await axios.get(
+          `https://viacep.com.br/ws/${newCep}/json/`
+        );
+        const { logradouro, bairro, erro } = response.data;
+
+        if (!erro) {
+          setLogradouro(logradouro || "");
+          setBairro(bairro || "");
+        } else {
+          Alert.alert("Erro", "CEP não encontrado.");
+        }
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Erro", "Erro ao buscar o CEP.");
+      }
+    }
   };
 
   useEffect(() => {
@@ -93,6 +119,7 @@ const TelaCliente = () => {
     },
     input: {
       height: 40,
+      color: isDarkMode ? "#000" : "#fff",
       borderColor: isDarkMode ? "#ccc" : "#434141",
       borderWidth: 1,
       borderRadius: 4,
@@ -103,6 +130,7 @@ const TelaCliente = () => {
     },
     smallInput: {
       height: 40,
+      color: isDarkMode ? "#000" : "#fff",
       borderColor: isDarkMode ? "#ccc" : "#434141",
       borderWidth: 1,
       borderRadius: 4,
@@ -125,7 +153,6 @@ const TelaCliente = () => {
       paddingVertical: 15,
       alignItems: "center",
     },
-
     buttonText: {
       color: "#fff",
       textAlign: "center",
@@ -179,7 +206,9 @@ const TelaCliente = () => {
               <TextInput
                 style={styles.smallInput}
                 value={cep}
-                onChangeText={setCep}
+                onChangeText={handleCepChange}
+                maxLength={8}
+                keyboardType="numeric"
               />
             </View>
           </View>
@@ -226,7 +255,7 @@ const TelaCliente = () => {
               style={[
                 styles.button,
                 {
-                  backgroundColor: isFormValid() ? "#007BFF" : "#A9A9A9",
+                  backgroundColor: isFormValid() ? "#015500" : "#A9A9A9",
                   marginRight: 20,
                 },
               ]}

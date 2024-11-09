@@ -1,10 +1,13 @@
 import React from 'react';
 import { Modal, Text, View, Pressable, Alert, StyleSheet, Dimensions } from 'react-native';
+import { useTheme } from '../context/ThemeContext';
 
 const { width } = Dimensions.get('window');
 const isSmallScreen = width < 768;
 
 const CustomModal = ({ modalVisible, setModalVisible, modalText }) => {
+  const { isDarkMode } = useTheme(); // Usando o contexto do tema
+
   return (
     <Modal
       animationType="slide"
@@ -16,14 +19,25 @@ const CustomModal = ({ modalVisible, setModalVisible, modalText }) => {
       }}
     >
       <View style={styles.centeredView}>
-        <View style={[styles.modalView, isSmallScreen && styles.modalViewSmall]}>
-          <Text style={[styles.modalText, isSmallScreen && styles.modalTextSmall]}>{modalText}</Text>
+        <View style={[
+          styles.modalView,
+          isSmallScreen && styles.modalViewSmall,
+          !isDarkMode && styles.modalDark // Estilo para o modo escuro
+        ]}>
+          <Text style={[
+            styles.modalText,
+            isSmallScreen && styles.modalTextSmall,
+            !isDarkMode && styles.modalTextDark // Texto branco para o modo escuro
+          ]}>
+            {modalText}
+          </Text>
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-              style={styles.modalButton}
+              onPress={() => setModalVisible(!modalVisible)}
+              style={[
+                styles.modalButton,
+                !isDarkMode && styles.modalButtonDark // Botão no modo escuro
+              ]}
             >
               <Text style={styles.buttonText}>Ok</Text>
             </Pressable>
@@ -54,8 +68,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalViewSmall: {
-    width: '80%', // reduzindo largura em telas pequenas
-    padding: 20, // reduzindo o padding para economizar espaço
+    width: '80%',
+    padding: 20,
+  },
+  modalDark: {
+    backgroundColor: "#333", // Fundo preto para modo escuro
   },
   modalText: {
     marginBottom: 15,
@@ -64,13 +81,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   modalTextSmall: {
-    fontSize: 16, // ajustando o tamanho do texto para telas menores
+    fontSize: 16,
+  },
+  modalTextDark: {
+    color: "#fff", // Texto branco para modo escuro
   },
   modalButton: {
     backgroundColor: "#B20000",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+  },
+  modalButtonDark: {
+    backgroundColor: "#950000", // Cor mais escura para o botão no modo escuro
   },
   buttonText: {
     color: "#fff",

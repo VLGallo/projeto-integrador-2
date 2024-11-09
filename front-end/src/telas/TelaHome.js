@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Template from "../components/TemplatePrincipal";
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from '@env';
 
 
 const TelaHome = () => {

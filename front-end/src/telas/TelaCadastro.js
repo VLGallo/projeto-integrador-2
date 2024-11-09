@@ -12,6 +12,7 @@ import Template from "../components/TemplatePrincipal";
 import CustomModal from "../components/CustomModal";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from '@env';
 
 const TelaCadastro = () => {
   const [modalVisible, setModalVisible] = useState("");
@@ -36,7 +37,7 @@ const TelaCadastro = () => {
 
   const handleSalvar = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/motoboy/add", {
+      const response = await axios.post(BASE_URL + "/motoboy/add", {
         nome: nome,
         telefone: telefone,
         placa: placa,
@@ -72,6 +73,7 @@ const TelaCadastro = () => {
       height: 40,
       width: 150,
       borderColor: isDarkMode ? "#ccc" : "#434141",
+      color: isDarkMode ? "#000" : "#fff",
       borderWidth: 1,
       borderRadius: 4,
       marginBottom: 16,

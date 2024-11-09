@@ -36,17 +36,19 @@ function exibirPedidos(pedidos) {
             <p><strong>Status:</strong> ${pedido.status}</p>
           `;
 
-    const clienteInfo = pedido.cliente
-      ? `
-            <p><strong>Cliente:</strong> ${pedido.cliente.nome}<br>
-               <strong>Endereço:</strong> ${pedido.cliente.endereco}<br>
-               <strong>Telefone:</strong> ${pedido.cliente.telefone}</p>
-          `
-      : `
-            <p>Cliente não especificado</p>
-          `;
-
-    pedidoDiv.innerHTML += clienteInfo;
+          const clienteInfo = pedido.cliente
+          ? `
+                <p><strong>Cliente:</strong> ${pedido.cliente.nome}<br>
+                   <strong>Endereço:</strong> ${pedido.cliente.logradouro}, ${pedido.cliente.numero}${pedido.cliente.complemento ? `, ${pedido.cliente.complemento}` : ''}<br>
+                   <strong>Bairro:</strong> ${pedido.cliente.bairro}<br>
+                   <strong>Telefone:</strong> ${pedido.cliente.telefone}</p>
+              `
+          : `
+                <p>Cliente não especificado</p>
+              `;
+        
+        pedidoDiv.innerHTML += clienteInfo;
+        
 
     if (pedido.status === "Em andamento") {
       const entregarCheckbox = criarCheckboxComLabel(
