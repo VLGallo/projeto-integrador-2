@@ -19,14 +19,30 @@ function exibirPedidos(pedidos) {
 
   let pedidosEntregues = 0;
 
-  // Obter a data atual formatada (apenas data, sem hora)
-  const dataAtual = new Date().toISOString().split("T")[0];
+  // Obter a data atual no timezone de São Paulo
+  const dataAtual = new Date().toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+  });
 
   // Filtrar pedidos para incluir apenas os pedidos do dia atual
   const pedidosDoDia = pedidos.filter((pedido) => {
-    const dataPedido = new Date(pedido.data_hora_pedido).toISOString().split("T")[0];
-    return dataPedido === dataAtual;
+    console.log(pedido)
+    if (!pedido.data_hora_inicio) return false;
+
+    try {
+      const dataPedido = new Date(pedido.data_hora_inicio).toLocaleDateString(
+        "pt-BR",
+        { timeZone: "America/Sao_Paulo" }
+      );
+      console.log(dataPedido)
+      return dataPedido === dataAtual;
+    } catch (error) {
+      console.error("Erro ao converter data:", pedido.data_hora_inicio, error);
+      return false;
+    }
   });
+
+  console.log(pedidosDoDia);
 
   // Exibir os pedidos filtrados
   pedidosDoDia.forEach((pedido) => {
@@ -52,7 +68,7 @@ function exibirPedidos(pedidos) {
              <strong>Telefone:</strong> ${pedido.cliente.telefone}</p>
         `
       : `<p>Cliente não especificado</p>`;
-    
+
     pedidoDiv.innerHTML += clienteInfo;
 
     if (pedido.status === "Em andamento") {
@@ -87,6 +103,7 @@ function exibirPedidos(pedidos) {
       const horaFinalizacao = dataHoraFinalizacao.toLocaleTimeString("pt-BR", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZone: "America/Sao_Paulo",
       });
 
       pedidoDiv.innerHTML += `<p><strong>Hora de Finalização:</strong> ${horaFinalizacao}</p>`;
