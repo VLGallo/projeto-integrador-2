@@ -12,7 +12,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { BASE_URL } from '@env';
+import { BASE_URL } from "@env";
 
 const TelaRelatorio = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -26,23 +26,20 @@ const TelaRelatorio = () => {
     const carregarPedidosDoDia = async () => {
       try {
         setCarregandoPedidosDoDia(true);
-        const response = await axios.get(
-          BASE_URL + "/pedido/motoboys"
-        );
+        const response = await axios.get(BASE_URL + "/pedido/motoboys");
 
         const dataAtual = new Date().toISOString().slice(0, 10); // Formato "YYYY-MM-DD"
 
-        // Filtrando os pedidos entregues na data de hoje
-        const pedidosEntreguesHoje = Object.values(response.data).flatMap(
-          (motoboy) =>
-            motoboy.pedidos.filter(
-              (pedido) =>
-                pedido.data_hora_finalizacao &&
-                pedido.data_hora_finalizacao.slice(0, 10) === dataAtual
-            )
+        const pedidosEntreguesHoje = Object.values(response.data).flatMap((motoboy) =>
+          motoboy.pedidos.filter(
+            (pedido) =>
+              pedido.status === "Entregue" && 
+              pedido.data_hora_finalizacao &&
+              pedido.data_hora_finalizacao.slice(0, 10) === dataAtual
+          )
         );
 
-        // Agrupando pedidos por motoboy
+ 
         const groupedPedidos = pedidosEntreguesHoje.reduce((acc, pedido) => {
           const nomeMotoboy = pedido.motoboy?.nome || "N/A";
           if (!acc[nomeMotoboy]) {
@@ -185,6 +182,7 @@ const TelaRelatorio = () => {
                         fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
                         padding: isMobile ? 4 : 16,
+                        textAlign: "center",
                       }}
                     >
                       Motoboy
@@ -195,6 +193,7 @@ const TelaRelatorio = () => {
                         fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
                         padding: isMobile ? 4 : 16,
+                        textAlign: "center",
                       }}
                     >
                       Pedido
@@ -205,6 +204,7 @@ const TelaRelatorio = () => {
                         fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
                         padding: isMobile ? 4 : 16,
+                        textAlign: "center",
                       }}
                     >
                       Finalização
@@ -215,6 +215,7 @@ const TelaRelatorio = () => {
                         fontWeight: "bold",
                         color: isDarkMode ? "#000" : "#fff",
                         padding: isMobile ? 4 : 16,
+                        textAlign: "center",
                       }}
                     >
                       Entregas
@@ -226,7 +227,6 @@ const TelaRelatorio = () => {
                     <React.Fragment key={index}>
                       {motoboy.pedidos.map((pedido, i) => (
                         <TableRow key={i}>
-                          {/* Nome do motoboy e número de entregas mesclados */}
                           {i === 0 && (
                             <>
                               <TableCell
@@ -235,6 +235,7 @@ const TelaRelatorio = () => {
                                   fontSize: isMobile ? 14 : 18,
                                   color: isDarkMode ? "#000" : "#fff",
                                   padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
                                 }}
                               >
                                 {motoboy.nome}
@@ -244,6 +245,7 @@ const TelaRelatorio = () => {
                                   fontSize: isMobile ? 14 : 18,
                                   color: isDarkMode ? "#000" : "#fff",
                                   padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
                                 }}
                               >
                                 {pedido.id}
@@ -253,10 +255,13 @@ const TelaRelatorio = () => {
                                   fontSize: isMobile ? 14 : 18,
                                   color: isDarkMode ? "#000" : "#fff",
                                   padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
                                 }}
                               >
                                 {pedido.data_hora_finalizacao
-                                  ? new Date(pedido.data_hora_finalizacao).toLocaleTimeString()
+                                  ? new Date(
+                                      pedido.data_hora_finalizacao
+                                    ).toLocaleTimeString()
                                   : "-"}
                               </TableCell>
                               <TableCell
@@ -279,6 +284,7 @@ const TelaRelatorio = () => {
                                   fontSize: isMobile ? 14 : 18,
                                   color: isDarkMode ? "#000" : "#fff",
                                   padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
                                 }}
                               >
                                 {pedido.id}
@@ -288,10 +294,13 @@ const TelaRelatorio = () => {
                                   fontSize: isMobile ? 14 : 18,
                                   color: isDarkMode ? "#000" : "#fff",
                                   padding: isMobile ? 4 : 16,
+                                  textAlign: "center",
                                 }}
                               >
                                 {pedido.data_hora_finalizacao
-                                  ? new Date(pedido.data_hora_finalizacao).toLocaleTimeString()
+                                  ? new Date(
+                                      pedido.data_hora_finalizacao
+                                    ).toLocaleTimeString()
                                   : "-"}
                               </TableCell>
                             </>

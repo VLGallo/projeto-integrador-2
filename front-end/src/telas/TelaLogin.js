@@ -103,7 +103,7 @@ const TelaLogin = () => {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginTop: isMobile ? -200 : 0,
+      marginTop: isMobile ? -180 : 0,
     },
     textLogin: {
       fontSize: 60,
@@ -258,12 +258,15 @@ const TelaLogin = () => {
           </Pressable>
         </View>
       </View>
+      
+    {!isMobile && (
       <Image
       source={require("../../assets/images/logo.png")}
       style={[styles.imageLogo, isMobile ? styles.bottomImageMobile : styles.centerImage]}
     />
-    </View>
-  );
+    )}
+  </View>  
+)
 };
 
 
