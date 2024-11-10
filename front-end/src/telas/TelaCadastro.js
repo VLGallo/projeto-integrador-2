@@ -41,7 +41,7 @@ const TelaCadastro = () => {
         nome: nome,
         telefone: telefone,
         placa: placa,
-        funcionario: 2,
+        funcionario: 1,
       });
       console.log(response);
 

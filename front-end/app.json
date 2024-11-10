@@ -26,7 +26,8 @@
       "package": "com.vlgallo.gestaodeentregas"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "output": "single",
+      "bundler": "metro"
     },
     "plugins": [
       [
@@ -36,7 +37,8 @@
             "./assets/fonts/LuckiestGuy.ttf"
           ]
         }
-      ]
+      ],
+      "expo-router"
     ],
     "extra": {
       "eas": {

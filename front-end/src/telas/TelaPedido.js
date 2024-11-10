@@ -77,7 +77,7 @@ const TelaPedido = () => {
       const response = await axios.post(BASE_URL + "/pedido/add", {
         produtos: produtosIds,
         cliente: clienteSelecionado,
-        funcionario: 2,
+        funcionario: 1,
       });
 
       if (response.status >= 200 && response.status < 400) {
@@ -246,7 +246,7 @@ const TelaPedido = () => {
             <View style={{ flex: 1, flexDirection: "column" }}>
               <Image
                 source={require("../../assets/images/logo.png")}
-                style={[styles.image, { width: 440, height: 440 }]}
+                style={[styles.image, { width: 400, height: 400 }]}
                 resizeMode="contain"
               />
             </View>

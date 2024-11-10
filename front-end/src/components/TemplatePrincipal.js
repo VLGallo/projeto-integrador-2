@@ -61,6 +61,7 @@ const Template = ({ children }) => {
       flex: 2,
       justifyContent: "center",
       width: "100%",
+      height: "100%",
     },
     menuIcon: {
       position: "absolute",

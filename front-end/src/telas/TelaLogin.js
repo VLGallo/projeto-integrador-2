@@ -114,6 +114,8 @@ const TelaLogin = () => {
     backImage: {
       flex: 2,
       justifyContent: "center",
+      width: "100%",
+      height: "100%",
     },
     input: {
       width: "80%",

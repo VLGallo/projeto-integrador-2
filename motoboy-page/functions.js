@@ -1,5 +1,5 @@
 function buscarPedidos(motoboyId) {
-  fetch(`http://localhost:8000/pedido/motoboy/${motoboyId}`)
+  fetch(`https://projeto-integrador-2-0rhf.onrender.com/pedido/motoboy/${motoboyId}`)
     .then((response) => response.json())
     .then((data) => {
       exibirMotoboy(data.motoboy);
@@ -118,7 +118,7 @@ function criarCheckboxComLabel(id, labelText, listaPedidos, parentElement) {
 }
 
 function confirmarOuCancelarEntrega(idPedido, acao, listaPedidos) {
-  const endpoint = ` http://localhost:8000/pedido/${idPedido}/action/${acao}`;
+  const endpoint = ` https://projeto-integrador-2-0rhf.onrender.com/pedido/${idPedido}/action/${acao}`;
   console.log(`Chamando endpoint: ${endpoint}`);
 
   const requestOptions = {
