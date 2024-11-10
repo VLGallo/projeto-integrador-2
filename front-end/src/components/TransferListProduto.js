@@ -80,7 +80,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
   const customList = (items) => (
     <Paper
       sx={{
-        width: 250,
+        width: 200,
         height: 200,
         overflow: "auto",
         backgroundColor: isDarkMode ? "#fff" : "#434141",

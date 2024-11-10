@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalViewSmall: {
-    width: '80%',
+    width: 300,
     padding: 20,
   },
   modalDark: {

@@ -176,7 +176,7 @@ const TelaPedido = () => {
         </View>
 
         <View style={{ flexDirection: "row" }}>
-          <View style={{ flex: 2, flexDirection: "column" }}>
+          <View style={{ flex: 2, flexDirection: "column", padding: 30 }}>
             <View>
               <Text style={styles.label}>Cliente</Text>
               <Picker
