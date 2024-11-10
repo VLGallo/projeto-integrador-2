@@ -186,8 +186,7 @@ class PedidosAtribuidosMotoboyView(APIView):
         pedidos = Pedido.objects.annotate(
             data_inicio_date=Cast('data_hora_inicio', DateField())
         ).filter(
-            motoboy=motoboy,
-            data_inicio_date=data_atual
+            motoboy=motoboy
         )
 
         serializer = PedidoSerializerResponse(pedidos, many=True)
@@ -205,7 +204,6 @@ from django.utils import timezone
 
 class PedidosAtribuidosMotoboysView(APIView):
     def get(self, request):
-        data_atual = timezone.now().date()  # Considera o timezone configurado no Django
         motoboys = Motoboy.objects.all()
         motoboys_pedidos = {}
 

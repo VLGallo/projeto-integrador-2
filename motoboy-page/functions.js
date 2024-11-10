@@ -19,36 +19,41 @@ function exibirPedidos(pedidos) {
 
   let pedidosEntregues = 0;
 
-  pedidos.forEach((pedido) => {
+  // Obter a data atual formatada (apenas data, sem hora)
+  const dataAtual = new Date().toISOString().split("T")[0];
+
+  // Filtrar pedidos para incluir apenas os pedidos do dia atual
+  const pedidosDoDia = pedidos.filter((pedido) => {
+    const dataPedido = new Date(pedido.data_hora_pedido).toISOString().split("T")[0];
+    return dataPedido === dataAtual;
+  });
+
+  // Exibir os pedidos filtrados
+  pedidosDoDia.forEach((pedido) => {
     const pedidoDiv = document.createElement("div");
     pedidoDiv.classList.add("pedido-info");
 
     pedidoDiv.innerHTML = `
-            <p style="color: green;"><strong>Pedido:</strong> ${pedido.id}</p>
-            <div class="pedidoDivWrapper">
-              <ul>
-                ${pedido.produtos
-                  .map((produto) => `<li>${produto.nome}</li>`)
-                  .join("")}
-              </ul>
-            </div>
-            <p><strong>Total:</strong> R$${pedido.total_pedido.toFixed(2)}</p>
-            <p><strong>Status:</strong> ${pedido.status}</p>
-          `;
+      <p style="color: green;"><strong>Pedido:</strong> ${pedido.id}</p>
+      <div class="pedidoDivWrapper">
+        <ul>
+          ${pedido.produtos.map((produto) => `<li>${produto.nome}</li>`).join("")}
+        </ul>
+      </div>
+      <p><strong>Total:</strong> R$${pedido.total_pedido.toFixed(2)}</p>
+      <p><strong>Status:</strong> ${pedido.status}</p>
+    `;
 
-          const clienteInfo = pedido.cliente
-          ? `
-                <p><strong>Cliente:</strong> ${pedido.cliente.nome}<br>
-                   <strong>Endereço:</strong> ${pedido.cliente.logradouro}, ${pedido.cliente.numero}${pedido.cliente.complemento ? `, ${pedido.cliente.complemento}` : ''}<br>
-                   <strong>Bairro:</strong> ${pedido.cliente.bairro}<br>
-                   <strong>Telefone:</strong> ${pedido.cliente.telefone}</p>
-              `
-          : `
-                <p>Cliente não especificado</p>
-              `;
-        
-        pedidoDiv.innerHTML += clienteInfo;
-        
+    const clienteInfo = pedido.cliente
+      ? `
+          <p><strong>Cliente:</strong> ${pedido.cliente.nome}<br>
+             <strong>Endereço:</strong> ${pedido.cliente.logradouro}, ${pedido.cliente.numero}${pedido.cliente.complemento ? `, ${pedido.cliente.complemento}` : ''}<br>
+             <strong>Bairro:</strong> ${pedido.cliente.bairro}<br>
+             <strong>Telefone:</strong> ${pedido.cliente.telefone}</p>
+        `
+      : `<p>Cliente não especificado</p>`;
+    
+    pedidoDiv.innerHTML += clienteInfo;
 
     if (pedido.status === "Em andamento") {
       const entregarCheckbox = criarCheckboxComLabel(
@@ -94,6 +99,7 @@ function exibirPedidos(pedidos) {
     }
   });
 
+  // Atualizar o contador de entregas e o valor a receber
   document.getElementById("entregas-feitas").textContent = pedidosEntregues;
   var valor = pedidosEntregues * 5;
   document.getElementById("valor-a-receber").innerHTML = valor.toLocaleString(
@@ -101,6 +107,7 @@ function exibirPedidos(pedidos) {
     { style: "currency", currency: "BRL" }
   );
 }
+
 
 function criarCheckboxComLabel(id, labelText, listaPedidos, parentElement) {
   const checkboxLabel = document.createElement("label");
