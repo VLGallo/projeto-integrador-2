@@ -79,7 +79,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
           width: 12,
         },
         "&::-webkit-scrollbar-track": {
-          backgroundColor: isDarkMode ?  "#f0f0f0" : "#2e2e2e",
+          backgroundColor: isDarkMode ? "#f0f0f0" : "#2e2e2e",
         },
         "&::-webkit-scrollbar-thumb": {
           backgroundColor: isDarkMode ? "#6b6b6b" : "#c1c1c1",
@@ -111,7 +111,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
                   sx={{
                     color: isDarkMode ? "#000" : "#fff",
                   }}
-                  inputProps={{
+                  data-testid={{
                     "aria-labelledby": labelId,
                   }}
                 />
@@ -144,6 +144,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleAllRight}
             disabled={left.length === 0}
+            data-testid="adicionar-todos-btn"
           >
             ≫
           </Button>
@@ -154,6 +155,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
+            data-testid="adicionar-um-btn"
           >
             &gt;
           </Button>
@@ -164,6 +166,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
+            data-testid="remover-um-btn"
           >
             &lt;
           </Button>
@@ -174,6 +177,7 @@ export default function TransferList({ pedidos, setSelectedPedidos }) {
             color="success"
             onClick={handleAllLeft}
             disabled={right.length === 0}
+            data-testid="remover-todos-btn"
           >
             ≪
           </Button>

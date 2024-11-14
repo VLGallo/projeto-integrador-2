@@ -22,8 +22,7 @@ import {
 } from "@mui/material";
 import CustomModal from "../components/CustomModal";
 import TransferListProduto from "../components/TransferListProduto";
-import { BASE_URL } from '@env';
-
+import { BASE_URL } from "@env";
 
 const TelaPedido = () => {
   const [clientes, setClientes] = useState("");
@@ -182,6 +181,7 @@ const TelaPedido = () => {
               <Picker
                 selectedValue={clienteSelecionado}
                 onValueChange={(itemValue) => setClienteSelecionado(itemValue)}
+                testID="cliente-picker"
                 style={[
                   styles.input,
                   {
@@ -190,7 +190,10 @@ const TelaPedido = () => {
                   },
                 ]}
               >
-                <Picker.Item label="Selecione um cliente" value="" />
+                <Picker.Item
+                  label="Selecione um cliente"
+                  value=""
+                />
                 {!carregandoClientes &&
                   clientes.map((cliente) => (
                     <Picker.Item
@@ -229,12 +232,14 @@ const TelaPedido = () => {
               <Pressable
                 style={[styles.button, { marginRight: 10 }]}
                 onPress={handleSalvar}
+                testID="salvar-btn"
               >
                 <Text style={styles.buttonText}>Salvar</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, { backgroundColor: "#B20000" }]}
                 onPress={handleCancelar}
+                testID="cancelar-btn"
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </Pressable>

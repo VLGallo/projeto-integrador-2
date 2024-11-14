@@ -129,6 +129,7 @@ const TelaCadastro = () => {
               style={styles.input}
               value={nome}
               onChangeText={setNome}
+              testID="nome-entregador-input"
             />
           </View>
           <View>
@@ -137,6 +138,7 @@ const TelaCadastro = () => {
               style={styles.input}
               value={telefone}
               onChangeText={setTelefone}
+              testID="telefone-entregador-input"
             />
           </View>
           <View>
@@ -145,12 +147,14 @@ const TelaCadastro = () => {
               style={styles.input}
               value={placa}
               onChangeText={setPlaca}
+              testID="placa-entregador-input"
             />
           </View>
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={[styles.button, { marginRight: 10 }]}
               onPress={handleSalvar}
+              testID="salvar-entregador-btn"
             >
               <Text style={styles.buttonText}>Salvar</Text>
             </Pressable>

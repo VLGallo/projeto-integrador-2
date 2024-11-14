@@ -232,6 +232,7 @@ const TelaLogin = () => {
             placeholder="Usuário"
             value={usuario}
             onChangeText={(text) => setUsuario(text)}
+            testID="login-input"
           />
 
           <View style={styles.inputContainer}>
@@ -241,10 +242,12 @@ const TelaLogin = () => {
               value={senha}
               onChangeText={(text) => setSenha(text)}
               secureTextEntry={!showPassword} 
+              testID="senha-input"
             />
             <TouchableOpacity
               onPress={() => setShowPassword((prev) => !prev)}
               style={styles.icon}
+              testID="mostrar-senha-btn"
             >
               <MaterialIcons
                 name={showPassword ? "visibility-off" : "visibility"}
@@ -253,7 +256,7 @@ const TelaLogin = () => {
               />
             </TouchableOpacity>
           </View>
-          <Pressable onPress={entrarTelaHome} style={styles.button}>
+          <Pressable onPress={entrarTelaHome} style={styles.button} testID="entrar-btn">
             <Text style={styles.buttonText}>Entrar</Text>
           </Pressable>
         </View>

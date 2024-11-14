@@ -14,7 +14,7 @@ import axios from "axios";
 import CustomModal from "../components/CustomModal";
 import TransferList from "../components/TransferList";
 import { useTheme } from "../context/ThemeContext";
-import { BASE_URL } from '@env';
+import { BASE_URL } from "@env";
 
 const TelaAtribuicao = () => {
   const navigation = useNavigation();
@@ -79,7 +79,8 @@ const TelaAtribuicao = () => {
     for (let i = 0; i < selectedPedidos.length; i++) {
       try {
         const response = await axios.put(
-          BASE_URL + "/pedido/" +
+          BASE_URL +
+            "/pedido/" +
             selectedPedidos[i] +
             "/atribuir-motoboy/" +
             selectedMotoboy
@@ -199,11 +200,12 @@ const TelaAtribuicao = () => {
               <Picker
                 selectedValue={selectedMotoboy}
                 onValueChange={(itemValue) => setSelectedMotoboy(itemValue)}
+                testID="motoboy-picker"
                 style={[
                   styles.input,
                   {
-                    color: isDarkMode ? "#000" : "#fff", 
-                    backgroundColor: isDarkMode ? "#fff" : "#434141", 
+                    color: isDarkMode ? "#000" : "#fff",
+                    backgroundColor: isDarkMode ? "#fff" : "#434141",
                   },
                 ]}
               >
@@ -214,7 +216,7 @@ const TelaAtribuicao = () => {
                       key={motoboy.id}
                       label={motoboy.nome}
                       value={motoboy.id}
-                      color={isDarkMode ? "#000" : "#fff"} 
+                      color={isDarkMode ? "#000" : "#fff"}
                     />
                   ))}
               </Picker>
@@ -234,12 +236,14 @@ const TelaAtribuicao = () => {
               <Pressable
                 style={[styles.button, { marginRight: 10 }]}
                 onPress={handleAtribuicao}
+                testID="atribuir-btn"
               >
                 <Text style={styles.buttonText}>Atribuir</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, { backgroundColor: "#B20000" }]}
                 onPress={handleCancelar}
+                testID="cancelar-btn"
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </Pressable>

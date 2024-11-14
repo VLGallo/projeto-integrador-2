@@ -13,7 +13,7 @@ import Template from "../components/TemplatePrincipal";
 import CustomModal from "../components/CustomModal";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext";
-import { BASE_URL } from '@env';
+import { BASE_URL } from "@env";
 
 const TelaCliente = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -189,6 +189,7 @@ const TelaCliente = () => {
               style={styles.input}
               value={nome}
               onChangeText={setNome}
+              testID="nome-cliente-input"
             />
           </View>
 
@@ -199,6 +200,7 @@ const TelaCliente = () => {
                 style={styles.smallInput}
                 value={telefone}
                 onChangeText={setTelefone}
+                testID="telefone-input"
               />
             </View>
             <View style={styles.smallInputContainer}>
@@ -209,6 +211,7 @@ const TelaCliente = () => {
                 onChangeText={handleCepChange}
                 maxLength={8}
                 keyboardType="numeric"
+                testID="CEP-input"
               />
             </View>
           </View>
@@ -219,6 +222,7 @@ const TelaCliente = () => {
               style={styles.input}
               value={logradouro}
               onChangeText={setLogradouro}
+              testID="logradouro-input"
             />
           </View>
 
@@ -229,6 +233,7 @@ const TelaCliente = () => {
                 style={styles.smallInput}
                 value={numero}
                 onChangeText={setNumero}
+                testID="numero-input"
               />
             </View>
             <View style={styles.smallInputContainer}>
@@ -237,6 +242,7 @@ const TelaCliente = () => {
                 style={styles.smallInput}
                 value={complemento}
                 onChangeText={setComplemento}
+                testID="complemento-input"
               />
             </View>
           </View>
@@ -247,6 +253,7 @@ const TelaCliente = () => {
               style={styles.input}
               value={bairro}
               onChangeText={setBairro}
+              testID="bairro-input"
             />
           </View>
 
@@ -261,12 +268,14 @@ const TelaCliente = () => {
               ]}
               onPress={handleCadastrar}
               disabled={!isFormValid()}
+              testID="cadastrar-btn"
             >
               <Text style={styles.buttonText}>Cadastrar</Text>
             </Pressable>
             <Pressable
               style={[styles.button, { backgroundColor: "#B20000" }]}
               onPress={handleCancelar}
+              testID="cancelar-btn"
             >
               <Text style={styles.buttonText}>Cancelar</Text>
             </Pressable>

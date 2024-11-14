@@ -74,10 +74,10 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
-    setSelectedProduto([]);
+    setSelectedProdutos([]);
   };
 
-  const customList = (items) => (
+  const customList = (items, listType) => (
     <Paper
       sx={{
         width: 200,
@@ -95,6 +95,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
           backgroundColor: isDarkMode ? "#6b6b6b" : "#c1c1c1",
         },
       }}
+      data-testid={`list-${listType}`}
     >
       <List dense component="div" role="list">
         {items.map((value) => {
@@ -105,6 +106,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
               key={value.id}
               role="listitem"
               onClick={handleToggle(value)}
+              data-testid={`list-item-${value.id}`}
               sx={{
                 backgroundColor: isDarkMode ? "#fff" : "#434141",
                 color: isDarkMode ? "#000" : "#fff",
@@ -118,6 +120,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
                   checked={checked.includes(value)}
                   tabIndex={-1}
                   disableRipple
+                  data-testid={`checkbox-${listType}-${value.id}`}
                   sx={{
                     color: isDarkMode ? "#000" : "#fff",
                   }}
@@ -144,7 +147,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
       spacing={2}
       sx={{ justifyContent: "left", alignItems: "center" }}
     >
-      <Grid item>{customList(left)}</Grid>
+      <Grid item>{customList(left, "left")}</Grid>
       <Grid item>
         <Grid container direction="column" sx={{ alignItems: "center" }}>
           <Button
@@ -154,6 +157,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
             color="success"
             onClick={handleAllRight}
             disabled={left.length === 0}
+            data-testid="move-all-right-btn"
           >
             ≫
           </Button>
@@ -164,6 +168,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
             color="success"
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
+            data-testid="move-selected-right-btn"
           >
             &gt;
           </Button>
@@ -174,6 +179,7 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
             color="success"
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
+            data-testid="move-selected-left-btn"
           >
             &lt;
           </Button>
@@ -184,12 +190,13 @@ export default function TransferList({ produtos, setSelectedProdutos }) {
             color="success"
             onClick={handleAllLeft}
             disabled={right.length === 0}
+            data-testid="move-all-left-btn"
           >
             ≪
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList(right)}</Grid>
+      <Grid item>{customList(right, "right")}</Grid>
     </Grid>
   );
 }
