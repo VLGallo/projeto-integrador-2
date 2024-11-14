@@ -10,10 +10,10 @@ describe("Cadastro de Cliente", () => {
 
   it("Deve cadastrar um novo cliente", () => {
     cy.get('[data-testid="cliente-btn"]').click();
-    cy.get('[data-testid="nome-cliente-input"]').click().type("Mariana de Tomazini");
-    cy.get('[data-testid="telefone-input"]').click().type("16998745562");
+    cy.get('[data-testid="nome-cliente-input"]').click().type("Josivaldo da Silva");
+    cy.get('[data-testid="telefone-input"]').click().type("16998725562");
     cy.get('[data-testid="CEP-input"]').click().type("13561060");
-    cy.get('[data-testid="numero-input"]').click().type("696");
+    cy.get('[data-testid="numero-input"]').click().type("691");
     cy.get('[data-testid="cadastrar-btn"]').click();
     cy.contains("Cliente cadastrado com sucesso").should("be.visible");
     cy.get("body").type("{esc}");

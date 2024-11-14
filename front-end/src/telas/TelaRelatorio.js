@@ -237,6 +237,7 @@ const TelaRelatorio = () => {
                                   padding: isMobile ? 4 : 16,
                                   textAlign: "center",
                                 }}
+                                data-testid="nomeMotoboy"
                               >
                                 {motoboy.nome}
                               </TableCell>
