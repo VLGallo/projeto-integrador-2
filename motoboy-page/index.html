@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Entregas</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="functions.js" defer></script>
+    <script src="functions.js"></script>
   </head>
+
 
   <body>
     <h1>Entregas</h1>
@@ -28,28 +29,13 @@
       </div>
     </div>
 
-    <!-- Lista de pedidos -->
     <div id="lista-pedidos" class="container-lista-pedidos"></div>
-
-    <!-- Checkbox para marcar entrega -->
-    <div class="container-entrega" style="text-align: center; margin-top: 20px;">
-      <label for="checkbox-entregar">Entregar</label>
-      <input type="checkbox" id="checkbox-entregar" onclick="marcarEntrega()" />
-    </div>
-
-    <!-- Status de entrega -->
-    <p id="status-entrega" style="display: none; text-align: center; margin-top: 10px;">
-      Entregue
-    </p>
-
-    <!-- Informações adicionais -->
     <div
       style="
         display: flex;
         flex-direction: row;
         justify-content: center;
         gap: 10px;
-        margin-top: 30px;
       ">
       <div class="imagemLogo">
         <img src="image/logo.png" alt="Logotipo" width="200" height="auto" />
@@ -68,7 +54,6 @@
       </div>
     </div>
 
-    <!-- Rodapé -->
     <div class="footer">
       <p>Projeto Integrador 2 - Grupo 7 - DRP09</p>
     </div>
