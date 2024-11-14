@@ -57,7 +57,7 @@ function exibirPedidos(pedidos) {
         </ul>
       </div>
       <p><strong>Total:</strong> R$${pedido.total_pedido.toFixed(2)}</p>
-      <p><strong>Status:</strong> ${pedido.status}</p>
+      <p id="status-entrega"><strong>Status:</strong> ${pedido.status}</p>
     `;
 
     const clienteInfo = pedido.cliente
