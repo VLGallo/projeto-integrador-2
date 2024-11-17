@@ -11,6 +11,6 @@ describe("Validação de relatorio", () => {
   it("Deve validar que o pedido entregue consta no relatório", () => {
     cy.get('[data-testid="relatorio-btn"]').click();
     cy.wait(5000);
-    cy.get('[data-testid="nomeMotoboy"]').should("contain","Lucas Pereira");
+    cy.get('[data-testid="nomeMotoboy"]').should("contain","Pedro de Oliveira Antunes");
   });
 });

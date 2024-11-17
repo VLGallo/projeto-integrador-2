@@ -10,9 +10,9 @@ describe("Cadastro de Motoboy", () => {
 
   it("Deve cadastrar um novo motoboy", () => {
     cy.get('[data-testid="cadastro-btn"]').click();
-    cy.get('[data-testid="nome-entregador-input"]').type("Antonio Fagundes Garcia");
-    cy.get('[data-testid="telefone-entregador-input"]').type("16998774521");
-    cy.get('[data-testid="placa-entregador-input"]').type("MLB8171");
+    cy.get('[data-testid="nome-entregador-input"]').type("Pedro de Oliveira Antunes");
+    cy.get('[data-testid="telefone-entregador-input"]').type("16998774111");
+    cy.get('[data-testid="placa-entregador-input"]').type("JAV1487");
     cy.get('[data-testid="salvar-entregador-btn"]').click();
     cy.contains("Entregador(a) cadastrado(a) com sucesso").should("be.visible");
     cy.get("body").type("{esc}");

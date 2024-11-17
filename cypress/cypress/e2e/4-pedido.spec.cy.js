@@ -9,35 +9,25 @@ describe("Cadastro de Pedido", () => {
   });
 
   it("Deve cadastrar um novo pedido", () => {
-    // Acessar a página de pedidos
+  
     cy.get('[data-testid="pedido-btn"]').click();
 
-    // Selecionar o cliente "Mariana de Tomazini" no campo de cliente
+ 
     cy.get("[data-testid='cliente-picker']").each(($select) => {
       cy.wrap($select)
         .find("option")
-        .contains("Mariana de Tomazini")
+        .contains("Adelina de Oliveira Santos")
         .then(($option) => {
           cy.wrap($select).select($option.val());
         });
     });
 
-
-  
-    // Selecionar o(s) produto(s) na lista usando a checkbox
-    cy.get("[data-testid='list-item-117']").click(); // Selecionar o primeiro item da lista (modifique o index se necessário)
-    cy.get("[data-testid='list-item-118']").click(); // Selecionar o primeiro item da lista 
+    cy.get("[data-testid='list-item-117']").click();
+    cy.get("[data-testid='list-item-96']").click(); 
     
-    cy.get("[data-testid='move-selected-right-btn']").click(); // Mover o item para a lista da direita
-
- 
-    // Finalizar o cadastro do pedido
+    cy.get("[data-testid='move-selected-right-btn']").click();
     cy.get('[data-testid="salvar-btn"]').click();
-
-    // Verificar se o pedido foi cadastrado com sucesso
     cy.contains("Pedido cadastrado com sucesso").should("be.visible");
-
-    // Fechar a mensagem de sucesso
-    cy.get("body").type("{esc}");
+    //cy.get("body").type("{esc}");
   });
 });

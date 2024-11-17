@@ -1,11 +1,9 @@
 describe("Entrega de Pedido", () => {
   it("Deve entregar um novo pedido", () => {
-    cy.visit("https://vlgallo.github.io/projeto-integrador-2/motoboy-page/index.html?motoboy=9");
+    cy.visit("https://vlgallo.github.io/projeto-integrador-2/motoboy-page/index.html?motoboy=32");
+    cy.wait(9500);
+     cy.get('label').contains("Entregar").click();
     
-    // Marca o checkbox de "Entregar"
-    cy.get('label').contains("Entregar").click();
-    
-    // Verifica se o status foi atualizado
     cy.get("#status-entrega").should("be.visible").and("contain", "Entregue");
   });
 });

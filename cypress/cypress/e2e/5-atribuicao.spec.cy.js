@@ -13,19 +13,17 @@ describe("Atribuição de Pedido", () => {
 
     cy.wait(6000);
 
-    // Esperar o combobox estar visível antes de prosseguir
     cy.get("[data-testid='motoboy-picker']")
       .should("be.visible")
       .and("not.be.disabled");
 
-    // Esperar até que as opções sejam carregadas no picker
+ 
     cy.get("[data-testid='motoboy-picker'] option")
-      .should("have.length.greaterThan", 1); // Garante que haja pelo menos 2 opções carregadas
+      .should("have.length.greaterThan", 1); 
 
-    // Selecionar o motoboy "Lucas Pereira"
-    cy.get("[data-testid='motoboy-picker']").select("Lucas Pereira");
+    cy.get("[data-testid='motoboy-picker']").select("Pedro de Oliveira Antunes");
 
-    // Aguardar a transfer list carregar
+
     cy.get(".MuiListItemButton-root")
       .should("be.visible")
       .last()
@@ -44,8 +42,8 @@ describe("Atribuição de Pedido", () => {
       .and("not.be.disabled")
       .click();
 
-    // Verificar a mensagem de sucesso
+
     cy.contains("Pedido(s) atribuído(s) com sucesso").should("be.visible");
-    cy.get("body").type("{esc}");
+    //cy.get("body").type("{esc}");
   });
 });
